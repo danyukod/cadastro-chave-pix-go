@@ -1,15 +1,28 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/routes"
+	"github.com/danyukod/cadastro-chave-pix-go/src/infrastructure/logger"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"log"
+)
 
 func main() {
-	r := gin.Default()
+	logger.Info("About to start PixKey API...")
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello World!",
-		})
-	})
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+		return
+	}
 
-	r.Run()
+	pixKeyController := initDependencies()
+
+	router := gin.Default()
+	routes.InitRoutes(&router.RouterGroup, pixKeyController)
+
+	if err := router.Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
 }
