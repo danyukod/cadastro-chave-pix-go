@@ -1,6 +1,7 @@
 package main
 
 import (
+	main2 "github.com/danyukod/cadastro-chave-pix-go"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/routes"
 	"github.com/danyukod/cadastro-chave-pix-go/src/infrastructure/logger"
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,7 @@ func main() {
 		return
 	}
 
-	pixKeyController := initDependencies()
+	pixKeyController := main2.initDependencies()
 
 	router := gin.Default()
 	routes.InitRoutes(&router.RouterGroup, pixKeyController)

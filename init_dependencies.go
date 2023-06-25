@@ -1,4 +1,4 @@
-package main
+package cadastro_chave_pix_go
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller"
