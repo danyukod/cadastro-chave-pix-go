@@ -1,11 +1,11 @@
-package entity
+package enum
 
 import "strings"
 
 type AccountType int
 
 const (
-	UNDEFINED AccountType = iota
+	UNDEFINED_ACCOUNT AccountType = iota
 	CORRENTE
 	POUPANCA
 )
@@ -24,13 +24,12 @@ func (t *AccountType) UnmarshalText(text []byte) error {
 }
 
 func AccountTypeFromText(text string) AccountType {
-
 	switch strings.ToLower(text) {
 	case "corrente":
 		return CORRENTE
 	case "poupanca":
 		return POUPANCA
 	default:
-		return UNDEFINED
+		return UNDEFINED_ACCOUNT
 	}
 }

@@ -1,15 +1,18 @@
 package entity
 
-import "errors"
+import (
+	"errors"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/entity/enum"
+)
 
 type Account struct {
-	AccountType AccountType
+	AccountType enum.AccountType
 	Number      int
 	Agency      int
 	Holder      Holder
 }
 
-func NewAccount(number int, agency int, accountType AccountType, holder Holder) (*Account, error) {
+func NewAccount(number int, agency int, accountType enum.AccountType, holder Holder) (*Account, error) {
 	account := Account{
 		AccountType: accountType,
 		Number:      number,
