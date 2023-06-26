@@ -1,7 +1,7 @@
 package controller
 
 import (
-	request2 "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
+	modelrequest "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/src/application/ports/input"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -18,7 +18,7 @@ func NewPixKeyController(registerPixKeyUseCase input.RegisterPixKeyUsecase) *Pix
 }
 
 func (p *PixKeyController) RegisterPixKey(c *gin.Context) {
-	var request request2.RegisterPixKeyRequest
+	var request modelrequest.RegisterPixKeyRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
