@@ -1,8 +1,8 @@
-package entity
+package domain
 
 import (
 	"errors"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/entity/enum"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
 )
 
 type Account struct {

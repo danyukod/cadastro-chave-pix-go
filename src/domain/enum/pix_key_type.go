@@ -1,7 +1,7 @@
 package enum
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/entity/validation"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/validation"
 	"strings"
 )
 
