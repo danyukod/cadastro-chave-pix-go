@@ -9,14 +9,18 @@ type PixKeyDomainInterface interface {
 	SetID(string)
 	GetPixKeyType() enum.PixKeyType
 	GetPixKey() string
-	GetAccount() Account
+	GetAccount() AccountDomainInterface
 	Validate() error
 }
 
-func NewPixKeyDomain(pixKeyType enum.PixKeyType, pixKey string, account Account) PixKeyDomainInterface {
-	return &pixKeyDomain{
+func NewPixKeyDomain(pixKeyType enum.PixKeyType, pixKey string, account AccountDomainInterface) (PixKeyDomainInterface, error) {
+	pixKeyDomain := pixKeyDomain{
 		pixKeyType: pixKeyType,
 		pixKey:     pixKey,
 		account:    account,
 	}
+	if err := pixKeyDomain.Validate(); err != nil {
+		return nil, err
+	}
+	return &pixKeyDomain, nil
 }

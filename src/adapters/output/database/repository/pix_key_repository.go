@@ -5,6 +5,12 @@ import (
 	"gorm.io/gorm"
 )
 
+type PixKeyRepository interface {
+	CreatePixKey(
+		pixKeyDomain domain.PixKeyDomainInterface,
+	) (domain.PixKeyDomainInterface, error)
+}
+
 type pixKeyRepository struct {
 	database *gorm.DB
 }
@@ -15,10 +21,4 @@ func NewPixKeyRepository(
 	return &pixKeyRepository{
 		database,
 	}
-}
-
-type PixKeyRepository interface {
-	CreatePixKey(
-		pixKeyDomain domain.PixKeyDomainInterface,
-	) (domain.PixKeyDomainInterface, error)
 }

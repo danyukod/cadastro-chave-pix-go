@@ -6,5 +6,5 @@ import (
 )
 
 type RegisterPixKeyUsecase interface {
-	Execute(request.RegisterPixKeyRequest) (response.RegisterPixKeyResponse, error)
+	Execute(request.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error)
 }

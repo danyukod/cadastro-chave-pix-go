@@ -9,7 +9,7 @@ type pixKeyDomain struct {
 	id         string
 	pixKeyType enum.PixKeyType
 	pixKey     string
-	account    Account
+	account    AccountDomainInterface
 }
 
 func (p *pixKeyDomain) Validate() error {
@@ -41,6 +41,6 @@ func (p *pixKeyDomain) GetPixKey() string {
 	return p.pixKey
 }
 
-func (p *pixKeyDomain) GetAccount() Account {
+func (p *pixKeyDomain) GetAccount() AccountDomainInterface {
 	return p.account
 }
