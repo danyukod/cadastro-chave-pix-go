@@ -11,7 +11,7 @@ const (
 )
 
 func (t AccountType) String() string {
-	return [...]string{"Undefined", "Corrente", "Poupanca"}[t-1]
+	return [...]string{"Undefined", "Corrente", "Poupanca"}[t]
 }
 
 func (t AccountType) EnumIndex() int {

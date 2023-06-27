@@ -17,7 +17,7 @@ const (
 )
 
 func (t PixKeyType) String() string {
-	return [...]string{"Undefined", "CPF", "CNPJ", "Phone", "Email", "Random"}[t-1]
+	return [...]string{"Undefined", "CPF", "CNPJ", "Phone", "Email", "Random"}[t]
 }
 
 func (t PixKeyType) EnumIndex() int {
