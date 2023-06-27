@@ -14,9 +14,10 @@ func ConvertDomainToEntity(domain domain.PixKeyDomainInterface) entity.PixKeyEnt
 		PixKey:                domain.GetPixKey(),
 		AccountType:           domain.GetAccount().GetAccountType().String(),
 		AccountNumber:         domain.GetAccount().GetNumber(),
+		AgencyNumber:          domain.GetAccount().GetAgency(),
 		AccountHolderName:     domain.GetAccount().GetHolder().GetName(),
 		AccountHolderLastName: domain.GetAccount().GetHolder().GetLastName(),
 		CreatedAt:             time.Now(),
-		UpdatedAt:             time.Now(),
+		ModifiedAt:            time.Now(),
 	}
 }
