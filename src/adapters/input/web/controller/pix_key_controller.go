@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"net/http"
+
 	modelrequest "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/src/application/ports/input"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type PixKeyController struct {
