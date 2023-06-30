@@ -1,4 +1,4 @@
-package factory
+package factories
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller"

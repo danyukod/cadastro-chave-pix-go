@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/src/factory"
+	"github.com/danyukod/cadastro-chave-pix-go/src/factories"
 	"github.com/danyukod/cadastro-chave-pix-go/src/shared/logger"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/joho/godotenv"
@@ -18,14 +18,14 @@ func main() {
 		return
 	}
 
-	database, err := factory.NewPixKeyDatabaseFactory()
+	database, err := factories.NewPixKeyDatabaseFactory()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	pixKeyController := factory.NewPixKeyControllerFactory(database)
+	pixKeyController := factories.NewPixKeyControllerFactory(database)
 
-	err = factory.NewPixKeyRouterFactory(pixKeyController)
+	err = factories.NewPixKeyRouterFactory(pixKeyController)
 	if err != nil {
 		log.Fatal(err)
 	}
