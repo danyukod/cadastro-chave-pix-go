@@ -1,17 +1,15 @@
-package controller_test
+package controller
 
 import (
 	"bytes"
 	"encoding/json"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/response"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 )
 
 type mockRegisterPixKeyUseCase struct{}
@@ -41,7 +39,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 	t.Run("should return 201 status code and success message", func(t *testing.T) {
 
 		mockUseCase := &mockRegisterPixKeyUseCase{}
-		controller := controller.NewPixKeyController(mockUseCase)
+		controller := NewPixKeyControllerInterface(mockUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)
@@ -71,7 +69,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 	t.Run("should return 400 status code and error message", func(t *testing.T) {
 
 		mockUseCase := &mockRegisterPixKeyUseCaseError{}
-		controller := controller.NewPixKeyController(mockUseCase)
+		controller := NewPixKeyControllerInterface(mockUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)

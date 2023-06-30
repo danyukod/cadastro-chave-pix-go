@@ -7,7 +7,7 @@ import (
 
 func InitRoutes(
 	r *gin.RouterGroup,
-	pixKeyController *controller.PixKeyController,
+	pixKeyController controller.PixKeyControllerInterface,
 ) {
 	r.POST("/pix/keys", pixKeyController.RegisterPixKey)
 }

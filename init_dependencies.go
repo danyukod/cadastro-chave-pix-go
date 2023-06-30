@@ -9,8 +9,8 @@ import (
 
 func initDependencies(
 	database *gorm.DB,
-) *controller.PixKeyController {
+) controller.PixKeyControllerInterface {
 	repo := repository.NewPixKeyRepository(database)
 	registerPixKeyUsecase := services.NewRegisterPixKeyService(repo)
-	return controller.NewPixKeyController(registerPixKeyUsecase)
+	return controller.NewPixKeyControllerInterface(registerPixKeyUsecase)
 }
