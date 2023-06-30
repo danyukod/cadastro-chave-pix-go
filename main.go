@@ -19,11 +19,13 @@ func main() {
 	}
 
 	database, err := factory.NewPixKeyDatabaseFactory()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	pixKeyController := factory.NewPixKeyControllerFactory(database)
 
 	err = factory.NewPixKeyRouterFactory(pixKeyController)
-
 	if err != nil {
 		log.Fatal(err)
 	}
