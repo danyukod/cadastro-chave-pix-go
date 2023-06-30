@@ -1,4 +1,4 @@
-package main
+package factory
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller"
@@ -8,9 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func initDependencies(
-	database *gorm.DB,
-) controller.PixKeyControllerInterface {
+func NewPixKeyControllerFactory(database *gorm.DB) controller.PixKeyControllerInterface {
 	persistence := persistence2.NewPixKeyPersistence(database)
 	repo := repository.NewRegisterPixKeyRepository(persistence)
 	registerPixKeyUsecase := services.NewRegisterPixKeyService(repo)
