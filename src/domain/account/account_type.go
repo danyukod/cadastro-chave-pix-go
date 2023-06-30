@@ -1,4 +1,4 @@
-package enum
+package account
 
 import "strings"
 

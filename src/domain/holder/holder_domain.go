@@ -1,4 +1,4 @@
-package domain
+package holder
 
 import "errors"
 

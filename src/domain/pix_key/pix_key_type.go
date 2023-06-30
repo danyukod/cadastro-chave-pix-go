@@ -1,7 +1,7 @@
-package enum
+package pix_key
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/validation"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key/validation"
 	"strings"
 )
 

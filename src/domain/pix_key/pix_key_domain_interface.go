@@ -1,19 +1,19 @@
-package domain
+package pix_key
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/account"
 )
 
 type PixKeyDomainInterface interface {
 	GetID() string
 	SetID(string)
-	GetPixKeyType() enum.PixKeyType
+	GetPixKeyType() PixKeyType
 	GetPixKey() string
-	GetAccount() AccountDomainInterface
+	GetAccount() account.AccountDomainInterface
 	Validate() error
 }
 
-func NewPixKeyDomain(pixKeyType enum.PixKeyType, pixKey string, account AccountDomainInterface) (PixKeyDomainInterface, error) {
+func NewPixKeyDomain(pixKeyType PixKeyType, pixKey string, account account.AccountDomainInterface) (PixKeyDomainInterface, error) {
 	pixKeyDomain := pixKeyDomain{
 		pixKeyType: pixKeyType,
 		pixKey:     pixKey,

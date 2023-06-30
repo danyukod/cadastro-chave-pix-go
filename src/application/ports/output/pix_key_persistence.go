@@ -1,9 +1,9 @@
 package output
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key"
 )
 
 type PixKeyPersistenceInterface interface {
-	CreatePixKey(domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error)
+	CreatePixKey(pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error)
 }

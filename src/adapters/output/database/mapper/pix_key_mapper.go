@@ -2,13 +2,14 @@ package mapper
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/entity"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/account"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/holder"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key"
 	"github.com/google/uuid"
 	"time"
 )
 
-func ConvertDomainToEntity(domain domain.PixKeyDomainInterface) entity.PixKeyEntity {
+func ConvertDomainToEntity(domain pix_key.PixKeyDomainInterface) entity.PixKeyEntity {
 	return entity.PixKeyEntity{
 		ID:                    uuid.NewString(),
 		PixKeyType:            domain.GetPixKeyType().String(),
@@ -23,16 +24,16 @@ func ConvertDomainToEntity(domain domain.PixKeyDomainInterface) entity.PixKeyEnt
 	}
 }
 
-func ConvertEntityToDomain(entity entity.PixKeyEntity) (domain.PixKeyDomainInterface, error) {
-	holder, err := domain.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
+func ConvertEntityToDomain(entity entity.PixKeyEntity) (pix_key.PixKeyDomainInterface, error) {
+	holder, err := holder.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
 	if err != nil {
 		return nil, err
 	}
-	account, err := domain.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, enum.AccountTypeFromText(entity.AccountType), holder)
+	account, err := account.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, account.AccountTypeFromText(entity.AccountType), holder)
 	if err != nil {
 		return nil, err
 	}
-	pixKey, err := domain.NewPixKeyDomain(enum.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, account)
+	pixKey, err := pix_key.NewPixKeyDomain(pix_key.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, account)
 	if err != nil {
 		return nil, err
 	}

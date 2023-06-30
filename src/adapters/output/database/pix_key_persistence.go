@@ -3,7 +3,7 @@ package database
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/entity"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/mapper"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key"
 	"gorm.io/gorm"
 )
 
@@ -17,7 +17,7 @@ func NewPixKeyPersistence(db *gorm.DB) *PixKeyPersistence {
 	}
 }
 
-func (p PixKeyPersistence) CreatePixKey(pixKeyDomain domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error) {
+func (p PixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
 	var pixKeyEntity entity.PixKeyEntity
 
 	pixKeyEntity = mapper.ConvertDomainToEntity(pixKeyDomain)

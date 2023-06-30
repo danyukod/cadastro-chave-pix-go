@@ -1,4 +1,4 @@
-package domain
+package holder
 
 type HolderDomainInterface interface {
 	Validate() error

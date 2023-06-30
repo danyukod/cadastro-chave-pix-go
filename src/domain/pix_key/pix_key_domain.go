@@ -1,15 +1,15 @@
-package domain
+package pix_key
 
 import (
 	"errors"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
+	account2 "github.com/danyukod/cadastro-chave-pix-go/src/domain/account"
 )
 
 type pixKeyDomain struct {
 	id         string
-	pixKeyType enum.PixKeyType
+	pixKeyType PixKeyType
 	pixKey     string
-	account    AccountDomainInterface
+	account    account2.AccountDomainInterface
 }
 
 func (p *pixKeyDomain) Validate() error {
@@ -33,7 +33,7 @@ func (p *pixKeyDomain) SetID(id string) {
 	p.id = id
 }
 
-func (p *pixKeyDomain) GetPixKeyType() enum.PixKeyType {
+func (p *pixKeyDomain) GetPixKeyType() PixKeyType {
 	return p.pixKeyType
 }
 
@@ -41,6 +41,6 @@ func (p *pixKeyDomain) GetPixKey() string {
 	return p.pixKey
 }
 
-func (p *pixKeyDomain) GetAccount() AccountDomainInterface {
+func (p *pixKeyDomain) GetAccount() account2.AccountDomainInterface {
 	return p.account
 }

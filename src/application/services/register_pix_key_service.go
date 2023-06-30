@@ -4,8 +4,9 @@ import (
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/src/application/ports/output"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/account"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/holder"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key"
 )
 
 type RegisterPixKeyService struct {
@@ -18,19 +19,19 @@ func NewRegisterPixKeyService(
 }
 
 func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error) {
-	holderDomain, err := domain.NewHolderDomain(request.AccountHolderName, request.AccountHolderLastName)
+	holderDomain, err := holder.NewHolderDomain(request.AccountHolderName, request.AccountHolderLastName)
 	if err != nil {
 		return nil, err
 	}
 
-	accountType := enum.AccountTypeFromText(request.AccountType)
-	accoutDomain, err := domain.NewAccountDomain(request.AccountNumber, request.AgencyNumber, accountType, holderDomain)
+	accountType := account.AccountTypeFromText(request.AccountType)
+	accoutDomain, err := account.NewAccountDomain(request.AccountNumber, request.AgencyNumber, accountType, holderDomain)
 	if err != nil {
 		return nil, err
 	}
 
-	pixKeyType := enum.PixKeyTypeFromText(request.PixKeyType)
-	pixKeyDomain, err := domain.NewPixKeyDomain(pixKeyType, request.PixKey, accoutDomain)
+	pixKeyType := pix_key.PixKeyTypeFromText(request.PixKeyType)
+	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyType, request.PixKey, accoutDomain)
 	if err != nil {
 		return nil, err
 	}

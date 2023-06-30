@@ -1,15 +1,15 @@
-package domain
+package account
 
 import (
 	"errors"
-	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
+	"github.com/danyukod/cadastro-chave-pix-go/src/domain/holder"
 )
 
 type accountDomain struct {
-	accountType enum.AccountType
+	accountType AccountType
 	number      int
 	agency      int
-	holder      HolderDomainInterface
+	holder      holder.HolderDomainInterface
 }
 
 func (a *accountDomain) Validate() error {
@@ -36,10 +36,10 @@ func (a *accountDomain) GetAgency() int {
 	return a.agency
 }
 
-func (a *accountDomain) GetAccountType() enum.AccountType {
+func (a *accountDomain) GetAccountType() AccountType {
 	return a.accountType
 }
 
-func (a *accountDomain) GetHolder() HolderDomainInterface {
+func (a *accountDomain) GetHolder() holder.HolderDomainInterface {
 	return a.holder
 }
