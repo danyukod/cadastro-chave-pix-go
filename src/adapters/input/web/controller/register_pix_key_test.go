@@ -94,4 +94,39 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 		var response map[string]string
 		json.Unmarshal(w.Body.Bytes(), &response)
 	})
+
+	t.Run("should return 400 status code when invalid request body", func(t *testing.T) {
+
+		mockUseCase := &mockRegisterPixKeyUseCaseError{}
+		controller := NewPixKeyControllerInterface(mockUseCase)
+
+		router := gin.Default()
+		router.POST("/pix-key", controller.RegisterPixKey)
+
+		requestBody, _ := json.Marshal(requestpackage.RegisterPixKeyRequest{
+			PixKeyType:            "",
+			PixKey:                "39357160876",
+			AccountType:           "CORRENTE",
+			AccountNumber:         123,
+			AgencyNumber:          1,
+			AccountHolderName:     "Danilo",
+			AccountHolderLastName: "Kodavara",
+		})
+
+		req, _ := http.NewRequest("POST", "/pix-key", bytes.NewBuffer(requestBody))
+		req.Header.Set("Content-Type", "application/json")
+
+		w := httptest.NewRecorder()
+		router.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+
+		var response map[string][]response.ErrorResponse
+
+		json.Unmarshal(w.Body.Bytes(), &response)
+
+		assert.Equal(t, "PixKeyType", response["errors"][0].Field)
+		assert.Equal(t, "This field is required", response["errors"][0].Message)
+
+	})
 }
