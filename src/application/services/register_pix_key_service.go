@@ -1,19 +1,19 @@
 package services
 
 import (
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/response"
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/repository"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
+	"github.com/danyukod/cadastro-chave-pix-go/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/src/domain"
 	"github.com/danyukod/cadastro-chave-pix-go/src/domain/enum"
 )
 
 type RegisterPixKeyService struct {
-	pixKeyRepository repository.PixKeyRepository
+	pixKeyRepository output.RegisterPixKeyRepository
 }
 
 func NewRegisterPixKeyService(
-	pixKeyRepository repository.PixKeyRepository) *RegisterPixKeyService {
+	pixKeyRepository output.RegisterPixKeyRepository) *RegisterPixKeyService {
 	return &RegisterPixKeyService{pixKeyRepository}
 }
 
@@ -35,7 +35,7 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 		return nil, err
 	}
 
-	pixKeyDomain, err = r.pixKeyRepository.CreatePixKey(pixKeyDomain)
+	pixKeyDomain, err = r.pixKeyRepository.RegisterPixKey(pixKeyDomain)
 	if err != nil {
 		return nil, err
 	}

@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/routes"
-	"github.com/danyukod/cadastro-chave-pix-go/src/infrastructure/logger"
+	"github.com/danyukod/cadastro-chave-pix-go/src/shared/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-migrate/migrate/v4"
 	migrate_mysql "github.com/golang-migrate/migrate/v4/database/mysql"

@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	modelrequest "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/response"
+	modelrequest "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"

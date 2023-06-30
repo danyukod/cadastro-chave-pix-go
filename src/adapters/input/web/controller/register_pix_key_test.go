@@ -3,8 +3,8 @@ package controller
 import (
 	"bytes"
 	"encoding/json"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/model/response"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
+	response2 "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -16,8 +16,8 @@ type mockRegisterPixKeyUseCase struct{}
 
 type mockRegisterPixKeyUseCaseError struct{}
 
-func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error) {
-	return &response.RegisterPixKeyResponse{
+func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
+	return &response2.RegisterPixKeyResponse{
 		Id:                    "12345678900",
 		PixKeyType:            "CPF",
 		PixKey:                "39357160876",
@@ -29,7 +29,7 @@ func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyReque
 	}, nil
 }
 
-func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error) {
+func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
 	return nil, assert.AnError
 }
 
@@ -121,7 +121,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response map[string][]response.ErrorResponse
+		var response map[string][]response2.ErrorResponse
 
 		json.Unmarshal(w.Body.Bytes(), &response)
 

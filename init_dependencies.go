@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller"
-	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/repository"
+	persistence2 "github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database"
+	"github.com/danyukod/cadastro-chave-pix-go/src/application/repository"
 	"github.com/danyukod/cadastro-chave-pix-go/src/application/services"
 	"gorm.io/gorm"
 )
@@ -10,7 +11,8 @@ import (
 func initDependencies(
 	database *gorm.DB,
 ) controller.PixKeyControllerInterface {
-	repo := repository.NewPixKeyRepository(database)
+	persistence := persistence2.NewPixKeyPersistence(database)
+	repo := repository.NewRegisterPixKeyRepository(persistence)
 	registerPixKeyUsecase := services.NewRegisterPixKeyService(repo)
 	return controller.NewPixKeyControllerInterface(registerPixKeyUsecase)
 }
