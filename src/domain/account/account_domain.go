@@ -20,7 +20,7 @@ func (a *accountDomain) Validate() error {
 		return errors.New("the account agency is invalid")
 	}
 	if a.accountType.EnumIndex() == 0 {
-		return errors.New("the account type is invalid")
+		return &ErrInvalidAccountType{}
 	}
 	if err := a.holder.Validate(); err != nil {
 		return err

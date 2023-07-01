@@ -17,7 +17,7 @@ func (p *pixKeyDomain) Validate() error {
 		return errors.New("the pix key is invalid")
 	}
 	if p.pixKeyType.EnumIndex() == 0 || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
-		return errors.New("the pix key type is invalid")
+		return &ErrInvalidPixKeyType{}
 	}
 	if err := p.account.Validate(); err != nil {
 		return errors.New("the account is invalid")
