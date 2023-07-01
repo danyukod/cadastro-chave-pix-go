@@ -14,7 +14,7 @@ type pixKeyDomain struct {
 
 func (p *pixKeyDomain) Validate() error {
 	if p.pixKey == "" {
-		return errors.New("the pix key is invalid")
+		return &ErrInvalidPixKey{}
 	}
 	if p.pixKeyType.EnumIndex() == 0 || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
 		return &ErrInvalidPixKeyType{}

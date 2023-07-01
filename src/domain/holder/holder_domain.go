@@ -1,7 +1,5 @@
 package holder
 
-import "errors"
-
 type holderDomain struct {
 	name     string
 	lastName string
@@ -9,7 +7,7 @@ type holderDomain struct {
 
 func (h *holderDomain) Validate() error {
 	if len(h.name) < 3 || len(h.name) > 50 {
-		return errors.New("the holder name is invalid")
+		return &ErrInvalidHolderName{}
 	}
 	return nil
 }

@@ -36,6 +36,15 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 		return nil, err
 	}
 
+	exists, err := r.pixKeyRepository.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String())
+	if err != nil {
+		return nil, err
+	}
+
+	if exists {
+		return nil, &pix_key.ErrPixKeyAlreadyExists{}
+	}
+
 	pixKeyDomain, err = r.pixKeyRepository.RegisterPixKey(pixKeyDomain)
 	if err != nil {
 		return nil, err

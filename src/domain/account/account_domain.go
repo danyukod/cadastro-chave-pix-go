@@ -1,7 +1,6 @@
 package account
 
 import (
-	"errors"
 	"github.com/danyukod/cadastro-chave-pix-go/src/domain/holder"
 )
 
@@ -13,11 +12,11 @@ type accountDomain struct {
 }
 
 func (a *accountDomain) Validate() error {
-	if a.number < 0 || a.number > 99999999 {
-		return errors.New("the account number is invalid")
+	if a.number <= 0 || a.number > 99999999 {
+		return &ErrInvalidAccountNumber{}
 	}
-	if a.agency < 0 || a.agency > 9999 {
-		return errors.New("the account agency is invalid")
+	if a.agency <= 0 || a.agency > 9999 {
+		return &ErrInvalidAccountAgency{}
 	}
 	if a.accountType.EnumIndex() == 0 {
 		return &ErrInvalidAccountType{}

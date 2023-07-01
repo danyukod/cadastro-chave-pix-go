@@ -15,8 +15,22 @@ import (
 
 type mockRegisterPixKeyRepository struct{}
 
+type mockRegisterPixKeyRepositoryWithError struct{}
+
 func (m *mockRegisterPixKeyRepository) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
 	return PixKeyMockFactory()
+}
+
+func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string) (bool, error) {
+	return false, nil
+}
+
+func (m *mockRegisterPixKeyRepositoryWithError) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
+	return nil, &pix_key.ErrPixKeyAlreadyExists{}
+}
+
+func (m *mockRegisterPixKeyRepositoryWithError) VerifyIfPixKeyAlreadyExists(_ string) (bool, error) {
+	return true, nil
 }
 
 func PixKeyMockFactory() (pix_key.PixKeyDomainInterface, error) {
@@ -60,44 +74,67 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.Equal(t, expectedResponse, *response)
 
 	// Test error handling
+	// Invalid Account Type
 	request.AccountType = "invalid"
 	response, err = service.Execute(request)
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.Is(err, &account.ErrInvalidAccountType{}))
-	//
+	// Invalid Account Number
 	request.AccountType = "corrente"
+	request.AccountNumber = 0
+	response, err = service.Execute(request)
+	assert.NotNil(t, err)
+	assert.Nil(t, response)
+	assert.True(t, errors.Is(err, &account.ErrInvalidAccountNumber{}))
+	// Invalid Account Agency
+	request.AccountNumber = 1
+	request.AgencyNumber = 0
+	response, err = service.Execute(request)
+	assert.NotNil(t, err)
+	assert.Nil(t, response)
+	assert.True(t, errors.Is(err, &account.ErrInvalidAccountAgency{}))
+	// Invalid Holder Name
+	request.AgencyNumber = 1
+	request.AccountHolderName = ""
+	response, err = service.Execute(request)
+	assert.NotNil(t, err)
+	assert.Nil(t, response)
+	assert.True(t, errors.Is(err, &holder.ErrInvalidHolderName{}))
+	//Invalid Pix Key Type
+	request.AccountHolderName = "Joe"
 	request.PixKeyType = "invalid"
 	response, err = service.Execute(request)
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.Is(err, &pix_key.ErrInvalidPixKeyType{}))
-	//
-	//request.PixKeyType = "email"
-	//request.AccountNumber = ""
-	//response, err = service.Execute(request)
-	//assert.NotNil(t, err)
-	//assert.Nil(t, response)
-	//assert.True(t, errors.Is(err, account.ErrInvalidAccountNumber))
-	//
-	//request.AccountNumber = "123456"
-	//request.AgencyNumber = ""
-	//response, err = service.Execute(request)
-	//assert.NotNil(t, err)
-	//assert.Nil(t, response)
-	//assert.True(t, errors.Is(err, account.ErrInvalidAgencyNumber))
-	//
-	//request.AgencyNumber = "7890"
-	//request.AccountHolderName = ""
-	//response, err = service.Execute(request)
-	//assert.NotNil(t, err)
-	//assert.Nil(t, response)
-	//assert.True(t, errors.Is(err, holder.ErrInvalidHolderName))
-	//
-	//request.AccountHolderName = "John"
-	//request.AccountHolderLastName = ""
-	//response, err = service.Execute(request)
-	//assert.NotNil(t, err)
-	//assert.Nil(t, response)
-	//assert.True(t, errors.Is(err, holder.ErrInvalidHolderLastName))
+	//Invalid Pix Key
+	request.PixKeyType = "cpf"
+	request.PixKey = ""
+	response, err = service.Execute(request)
+	assert.NotNil(t, err)
+	assert.Nil(t, response)
+	assert.True(t, errors.Is(err, &pix_key.ErrInvalidPixKey{}))
+
+}
+
+func TestRegisterPixKeyService_ExecuteWithError(t *testing.T) {
+	pixKeyRepository := &mockRegisterPixKeyRepositoryWithError{}
+	service := services.NewRegisterPixKeyService(pixKeyRepository)
+
+	request := request.RegisterPixKeyRequest{
+		AccountHolderName:     "John",
+		AccountHolderLastName: "Doe",
+		AccountType:           "corrente",
+		AccountNumber:         123,
+		AgencyNumber:          1,
+		PixKeyType:            "cpf",
+		PixKey:                "39357160876",
+	}
+
+	// Test error handling
+	response, err := service.Execute(request)
+	assert.NotNil(t, err)
+	assert.Nil(t, response)
+	assert.True(t, errors.Is(err, &pix_key.ErrPixKeyAlreadyExists{}))
 }

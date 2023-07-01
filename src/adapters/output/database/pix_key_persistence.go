@@ -35,3 +35,19 @@ func (p PixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterfa
 
 	return pixKeyDomain, nil
 }
+
+func (p PixKeyPersistence) FindPixKeyByType(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+	var pixKeyEntity entity.PixKeyEntity
+
+	err := p.db.Where("type = ?", pixKeyType).First(&pixKeyEntity).Error
+	if err != nil {
+		return nil, err
+	}
+
+	pixKeyDomain, err := mapper.ConvertEntityToDomain(pixKeyEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	return pixKeyDomain, nil
+}
