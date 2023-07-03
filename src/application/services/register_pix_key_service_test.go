@@ -2,6 +2,7 @@ package services_test
 
 import (
 	"errors"
+	"github.com/danyukod/cadastro-chave-pix-go/src/shared/tests"
 	"testing"
 
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
@@ -18,7 +19,7 @@ type mockRegisterPixKeyRepository struct{}
 type mockRegisterPixKeyRepositoryWithError struct{}
 
 func (m *mockRegisterPixKeyRepository) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
-	return PixKeyMockFactory()
+	return tests.PixKeyMockFactory()
 }
 
 func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string) (bool, error) {
@@ -31,16 +32,6 @@ func (m *mockRegisterPixKeyRepositoryWithError) RegisterPixKey(_ pix_key.PixKeyD
 
 func (m *mockRegisterPixKeyRepositoryWithError) VerifyIfPixKeyAlreadyExists(_ string) (bool, error) {
 	return true, nil
-}
-
-func PixKeyMockFactory() (pix_key.PixKeyDomainInterface, error) {
-	pixKeyType := pix_key.PixKeyTypeFromText("cpf")
-	accountType := account.AccountTypeFromText("corrente")
-	holderDomain, _ := holder.NewHolderDomain("John", "Doe")
-	accountDomain, _ := account.NewAccountDomain(123, 1, accountType, holderDomain)
-	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyType, "39357160876", accountDomain)
-	pixKeyDomain.SetID("1")
-	return pixKeyDomain, err
 }
 
 func TestRegisterPixKeyService_Execute(t *testing.T) {
