@@ -24,31 +24,35 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 	var businessErrors businesserros.BusinessErrors
 	holderDomain, err := holder.NewHolderDomain(request.AccountHolderName, request.AccountHolderLastName)
 	if err != nil {
-		var be *businesserros.BusinessErrors
-		if errors.As(err, &be) {
-			businesserros.AppendErrors(businessErrors, *be)
+		var be businesserros.BusinessErrors
+		if !errors.As(err, &be) {
+			return nil, err
 		}
-		return nil, err
+		businessErrors = businesserros.AppendErrors(businessErrors, be)
 	}
 
 	accountType := account.AccountTypeFromText(request.AccountType)
 	accoutDomain, err := account.NewAccountDomain(request.AccountNumber, request.AgencyNumber, accountType, holderDomain)
 	if err != nil {
-		var be *businesserros.BusinessErrors
-		if errors.As(err, &be) {
-			businesserros.AppendErrors(businessErrors, *be)
+		var be businesserros.BusinessErrors
+		if !errors.As(err, &be) {
+			return nil, err
 		}
-		return nil, err
+		businessErrors = businesserros.AppendErrors(businessErrors, be)
 	}
 
 	pixKeyType := pix_key.PixKeyTypeFromText(request.PixKeyType)
 	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyType, request.PixKey, accoutDomain)
 	if err != nil {
-		var be *businesserros.BusinessErrors
-		if errors.As(err, &be) {
-			businesserros.AppendErrors(businessErrors, *be)
+		var be businesserros.BusinessErrors
+		if !errors.As(err, &be) {
+			return nil, err
 		}
-		return nil, err
+		businessErrors = businesserros.AppendErrors(businessErrors, be)
+	}
+
+	if businessErrors.HasErrors() {
+		return nil, businessErrors
 	}
 
 	exists, err := r.pixKeyRepository.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
@@ -58,9 +62,6 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 
 	if exists {
 		businessErrors = businesserros.AddError(businessErrors, *businesserros.NewBusinessError("Pix Key", "Chave pix ja cadastrada."))
-	}
-
-	if businessErrors.HasErrors() {
 		return nil, businessErrors
 	}
 
