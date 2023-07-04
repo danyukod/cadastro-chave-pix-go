@@ -19,7 +19,12 @@ type mockRegisterPixKeyRepository struct{}
 type mockRegisterPixKeyRepositoryWithError struct{}
 
 func (m *mockRegisterPixKeyRepository) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
-	return tests.PixKeyMockFactory()
+	pixKeyDomain, err := tests.PixKeyMockFactory()
+	if err != nil {
+		return nil, err
+	}
+	pixKeyDomain.SetID("1")
+	return pixKeyDomain, nil
 }
 
 func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string) (bool, error) {
