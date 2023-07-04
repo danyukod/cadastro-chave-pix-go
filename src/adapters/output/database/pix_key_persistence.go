@@ -36,10 +36,10 @@ func (p PixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterfa
 	return pixKeyDomain, nil
 }
 
-func (p PixKeyPersistence) FindPixKeyByType(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+func (p PixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 	var pixKeyEntity entity.PixKeyEntity
 
-	err := p.db.Where("pix_key_type = ?", pixKeyType).First(&pixKeyEntity).Error
+	err := p.db.Where("pix_key_type = ?", pixKeyType).Where("pix_key = ?", pixKey).First(&pixKeyEntity).Error
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ func NewPixKeyDatabaseFactory() (*gorm.DB, error) {
 		db, _ := sql.Open("mysql", dsn)
 		driver, _ := migrate_mysql.WithInstance(db, &migrate_mysql.Config{})
 		m, _ := migrate.NewWithDatabaseInstance(
-			"file:../migrations",
+			"file:migrations",
 			"cadastro_chave_pix",
 			driver,
 		)

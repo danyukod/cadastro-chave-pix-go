@@ -12,7 +12,7 @@ import (
 func main() {
 	logger.Info("About to start PixKey API...")
 
-	err := godotenv.Load(filepath.Join("..", ".env"))
+	err := godotenv.Load(filepath.Join(".env"))
 	if err != nil {
 		log.Fatal("Error loading .env file")
 		return

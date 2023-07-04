@@ -17,7 +17,7 @@ type PixKeyPersistenceMock struct {
 	createPixKeyFunc     func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error)
 }
 
-func (p PixKeyPersistenceMock) FindPixKeyByType(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+func (p PixKeyPersistenceMock) FindPixKeyByKeyAndType(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
 	return p.findPixKeyByTypeFunc(pixKeyType)
 }
 

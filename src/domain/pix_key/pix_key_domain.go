@@ -1,8 +1,8 @@
 package pix_key
 
 import (
-	"errors"
 	account2 "github.com/danyukod/cadastro-chave-pix-go/src/domain/account"
+	errors "github.com/danyukod/cadastro-chave-pix-go/src/domain/errors"
 )
 
 type pixKeyDomain struct {
@@ -13,14 +13,15 @@ type pixKeyDomain struct {
 }
 
 func (p *pixKeyDomain) Validate() error {
+	var businessErrors errors.BusinessErrors
 	if p.pixKeyType.EnumIndex() == 0 {
-		return &ErrInvalidPixKeyType{}
+		businessErrors = errors.AddError(businessErrors, *errors.NewBusinessError("Pix Key Type", "O tipo de chave esta invalido."))
 	}
 	if p.pixKey == "" || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
-		return &ErrInvalidPixKey{}
+		businessErrors = errors.AddError(businessErrors, *errors.NewBusinessError("Pix Key", "O valor da chave esta invalido."))
 	}
-	if err := p.account.Validate(); err != nil {
-		return errors.New("the account is invalid")
+	if businessErrors.Len() > 0 {
+		return businessErrors
 	}
 	return nil
 }

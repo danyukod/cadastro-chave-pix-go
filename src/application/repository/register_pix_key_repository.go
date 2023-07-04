@@ -26,8 +26,8 @@ func (p registerPixKeyRepository) RegisterPixKey(pixKeyDomain pix_key.PixKeyDoma
 	return pixKeyDomain, nil
 }
 
-func (p registerPixKeyRepository) VerifyIfPixKeyAlreadyExists(pixKeyType string) (bool, error) {
-	pixKeyDomain, err := p.pixKeyPersistence.FindPixKeyByType(pixKeyType)
+func (p registerPixKeyRepository) VerifyIfPixKeyAlreadyExists(pixKeyType string, pixKey string) (bool, error) {
+	pixKeyDomain, err := p.pixKeyPersistence.FindPixKeyByKeyAndType(pixKeyType, pixKey)
 	if err != nil {
 		return false, err
 	}

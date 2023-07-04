@@ -4,6 +4,7 @@ import (
 	"errors"
 	modelrequest "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/src/domain/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
@@ -23,10 +24,19 @@ func (p *pixKeyController) RegisterPixKey(c *gin.Context) {
 		}
 		return
 	}
+
 	pixKeyResponse, err := p.usecase.Execute(request)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		var eb businesserrors.BusinessErrors
+		if errors.As(err, &eb) {
+			out := make([]response.ErrorResponse, len(eb))
+			for i, e := range eb {
+				out[i] = response.ErrorResponse{Field: e.Field, Message: e.Message}
+			}
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"errors": out})
+		}
 		return
 	}
+
 	c.JSON(http.StatusCreated, pixKeyResponse)
 }

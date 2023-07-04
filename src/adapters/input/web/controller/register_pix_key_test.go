@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/request"
 	response2 "github.com/danyukod/cadastro-chave-pix-go/src/adapters/input/web/controller/model/response"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/src/domain/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -30,7 +31,9 @@ func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyReque
 }
 
 func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
-	return nil, assert.AnError
+	var businessErrors businesserrors.BusinessErrors
+	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido."))
+	return nil, businessErrors
 }
 
 func TestPixKeyController_RegisterPixKey(t *testing.T) {
@@ -62,11 +65,20 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusCreated, w.Code)
 
-		var response map[string]string
+		var response response2.RegisterPixKeyResponse
 		json.Unmarshal(w.Body.Bytes(), &response)
+
+		assert.NotNil(t, response)
+		assert.Equal(t, "CPF", response.PixKeyType)
+		assert.Equal(t, "39357160876", response.PixKey)
+		assert.Equal(t, "CORRENTE", response.AccountType)
+		assert.Equal(t, 123, response.AccountNumber)
+		assert.Equal(t, 1, response.AgencyNumber)
+		assert.Equal(t, "Danilo", response.AccountHolderName)
+		assert.Equal(t, "Kodavara", response.AccountHolderLastName)
 	})
 
-	t.Run("should return 400 status code and error message", func(t *testing.T) {
+	t.Run("should return 400 status code and error message when invalid PixKey", func(t *testing.T) {
 
 		mockUseCase := &mockRegisterPixKeyUseCaseError{}
 		controller := NewPixKeyControllerInterface(mockUseCase)
@@ -91,8 +103,12 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response map[string]string
+		var response map[string][]response2.ErrorResponse
+
 		json.Unmarshal(w.Body.Bytes(), &response)
+
+		assert.Equal(t, "Pix Key", response["errors"][0].Field)
+		assert.Equal(t, "O valor da chave esta invalido.", response["errors"][0].Message)
 	})
 
 	t.Run("should return 400 status code when invalid request body", func(t *testing.T) {
