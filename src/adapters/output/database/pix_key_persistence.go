@@ -11,8 +11,8 @@ type PixKeyPersistence struct {
 	db *gorm.DB
 }
 
-func NewPixKeyPersistence(db *gorm.DB) *PixKeyPersistence {
-	return &PixKeyPersistence{
+func NewPixKeyPersistence(db *gorm.DB) PixKeyPersistence {
+	return PixKeyPersistence{
 		db,
 	}
 }

@@ -10,8 +10,14 @@ import (
 )
 
 func ConvertDomainToEntity(domain pix_key.PixKeyDomainInterface) entity.PixKeyEntity {
+	var id string
+	if domain.GetID() != "" {
+		id = domain.GetID()
+	} else {
+		id = uuid.NewString()
+	}
 	return entity.PixKeyEntity{
-		ID:                    uuid.NewString(),
+		ID:                    id,
 		PixKeyType:            domain.GetPixKeyType().String(),
 		PixKey:                domain.GetPixKey(),
 		AccountType:           domain.GetAccount().GetAccountType().String(),
@@ -37,6 +43,8 @@ func ConvertEntityToDomain(entity entity.PixKeyEntity) (pix_key.PixKeyDomainInte
 	if err != nil {
 		return nil, err
 	}
+
+	pixKey.SetID(entity.ID)
 
 	return pixKey, nil
 }
