@@ -13,11 +13,11 @@ type pixKeyDomain struct {
 }
 
 func (p *pixKeyDomain) Validate() error {
-	if p.pixKey == "" {
-		return &ErrInvalidPixKey{}
-	}
-	if p.pixKeyType.EnumIndex() == 0 || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
+	if p.pixKeyType.EnumIndex() == 0 {
 		return &ErrInvalidPixKeyType{}
+	}
+	if p.pixKey == "" || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
+		return &ErrInvalidPixKey{}
 	}
 	if err := p.account.Validate(); err != nil {
 		return errors.New("the account is invalid")
