@@ -12,16 +12,14 @@ import (
 func NewPixKeyDatabaseFactory() (*gorm.DB, error) {
 	dsn := os.Getenv("DATABASE_CONNECTION_STRING")
 	migrationTag := os.Getenv("MIGRATION_TAG")
+	migrationSource := os.Getenv("MIGRATION_SOURCE")
+	dbName := os.Getenv("DATABASE_NAME")
+	dbDriver := os.Getenv("DATABASE_DRIVER")
 
 	if migrationTag == "ON" {
-		db, _ := sql.Open("mysql", dsn)
+		db, _ := sql.Open(dbDriver, dsn)
 		driver, _ := migrate_mysql.WithInstance(db, &migrate_mysql.Config{})
-		m, _ := migrate.NewWithDatabaseInstance(
-			"file:migrations",
-			"cadastro_chave_pix",
-			driver,
-		)
-
+		m, _ := migrate.NewWithDatabaseInstance(migrationSource, dbName, driver)
 		m.Up()
 	}
 
