@@ -54,7 +54,7 @@ func TestPixKeyPersistence_FindPixKeyByType(t *testing.T) {
 		t.Errorf("Expected pixKey to be %s, got %s", pixKeyDomain.GetPixKey(), pixKey.GetPixKey())
 	}
 
-	pixKeyByType, err := repo.FindPixKeyByKeyAndType(pixKeyDomain.GetPixKeyType().String())
+	pixKeyByType, err := repo.FindPixKeyByKeyAndType(pixKeyDomain.GetPixKeyType().String(), pixKey.GetPixKey())
 	if err != nil {
 		t.Fatalf("Failed to find pix key by type: %v", err)
 	}
