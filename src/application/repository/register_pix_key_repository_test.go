@@ -13,12 +13,12 @@ import (
 
 type PixKeyPersistenceMock struct {
 	output.PixKeyPersistenceInterface
-	findPixKeyByTypeFunc func(pixKeyType string) (pix_key.PixKeyDomainInterface, error)
-	createPixKeyFunc     func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error)
+	findPixKeyByKeyAndTypeFunc func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error)
+	createPixKeyFunc           func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error)
 }
 
-func (p PixKeyPersistenceMock) FindPixKeyByKeyAndType(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
-	return p.findPixKeyByTypeFunc(pixKeyType)
+func (p PixKeyPersistenceMock) FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
+	return p.findPixKeyByKeyAndTypeFunc(pixKeyType, pixKey)
 }
 
 func (p PixKeyPersistenceMock) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
@@ -29,7 +29,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 	t.Run("should return an error when persistence layer returns an error", func(t *testing.T) {
 
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
-			findPixKeyByTypeFunc: func(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil
 			},
 			createPixKeyFunc: func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
@@ -48,7 +48,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 	t.Run("should return a PixKeyDomain when persistence layer creates a new PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
-			findPixKeyByTypeFunc: func(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil
 			},
 			createPixKeyFunc: func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
@@ -68,7 +68,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 	t.Run("should return true when persistence layer find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
-			findPixKeyByTypeFunc: func(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return tests.PixKeyMockFactory()
 			},
 			createPixKeyFunc: func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
@@ -78,7 +78,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 		repo := repository.NewRegisterPixKeyRepository(pixKeyPersistenceMock)
 
-		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf")
+		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
 
 		assert.Nil(t, err)
 		assert.True(t, result)
@@ -86,7 +86,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 	t.Run("should return false when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
-			findPixKeyByTypeFunc: func(pixKeyType string) (pix_key.PixKeyDomainInterface, error) {
+			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil
 			},
 			createPixKeyFunc: func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
@@ -96,7 +96,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 		repo := repository.NewRegisterPixKeyRepository(pixKeyPersistenceMock)
 
-		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf")
+		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
 
 		assert.Nil(t, err)
 		assert.False(t, result)
