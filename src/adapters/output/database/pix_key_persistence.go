@@ -3,21 +3,22 @@ package database
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/entity"
 	"github.com/danyukod/cadastro-chave-pix-go/src/adapters/output/database/mapper"
+	"github.com/danyukod/cadastro-chave-pix-go/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/src/domain/pix_key"
 	"gorm.io/gorm"
 )
 
-type PixKeyPersistence struct {
-	db *gorm.DB
-}
-
-func NewPixKeyPersistence(db *gorm.DB) PixKeyPersistence {
-	return PixKeyPersistence{
+func NewPixKeyPersistence(db *gorm.DB) output.PixKeyPersistenceInterface {
+	return pixKeyPersistence{
 		db,
 	}
 }
 
-func (p PixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
+type pixKeyPersistence struct {
+	db *gorm.DB
+}
+
+func (p pixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
 	var pixKeyEntity entity.PixKeyEntity
 
 	pixKeyEntity = mapper.ConvertDomainToEntity(pixKeyDomain)
@@ -36,7 +37,7 @@ func (p PixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterfa
 	return pixKeyDomain, nil
 }
 
-func (p PixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
+func (p pixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 	var pixKeyEntity entity.PixKeyEntity
 
 	err := p.db.Where("pix_key_type = ?", pixKeyType).Where("pix_key = ?", pixKey).First(&pixKeyEntity).Error
