@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    container_name: mysql_pix_key
+    image: mysql:8.0.23
+    volumes:
+      - ./db:/var/pkg/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cadastro_chave_pix
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
