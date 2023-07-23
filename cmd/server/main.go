@@ -10,9 +10,14 @@ import (
 func main() {
 	logger.Info("About to start PixKey API...")
 
-	conf, err := configs.LoadConfig(".")
+	conf, err := configs.LoadConfig("cmd/server")
 
-	database, err := factories.NewPixKeyDatabaseFactory(*conf.Database)
+	//err = configs.MigrateDatabase(conf)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+
+	database, err := configs.NewPixKeyDatabaseFactory(conf)
 	if err != nil {
 		log.Fatal(err)
 	}
