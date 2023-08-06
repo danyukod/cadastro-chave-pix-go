@@ -32,7 +32,7 @@ func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyReque
 
 func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
 	var businessErrors businesserrors.BusinessErrors
-	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
+	businessErrors = append(businessErrors, businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
 }
 

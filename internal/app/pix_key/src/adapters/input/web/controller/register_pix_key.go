@@ -12,7 +12,9 @@ func (p *pixKeyController) RegisterPixKey(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&request)
 
-	errors.CheckForError(c, err)
+	if errors.CheckForError(c, err) {
+		return
+	}
 
 	pixKeyResponse, err := p.usecase.Execute(request)
 

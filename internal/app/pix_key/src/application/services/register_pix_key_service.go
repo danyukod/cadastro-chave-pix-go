@@ -5,8 +5,6 @@ import (
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/account"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/holder"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 )
@@ -26,16 +24,7 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 
 	var be *businesserros.BusinessErrors
 
-	holderDomain, err := holder.NewHolderDomain(request.AccountHolderName, request.AccountHolderLastName)
-
-	accountType := account.AccountTypeFromText(request.AccountType)
-	accoutDomain, err := account.NewAccountDomain(request.AccountNumber, request.AgencyNumber, accountType, holderDomain)
-	if checkErrors(err, be) {
-		return nil, err
-	}
-
-	pixKeyType := pix_key.PixKeyTypeFromText(request.PixKeyType)
-	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyType, request.PixKey, accoutDomain)
+	pixKeyDomain, err := pix_key.NewPixKeyDomain(request)
 	if checkErrors(err, be) {
 		return nil, err
 	}
@@ -49,21 +38,16 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 		return nil, err
 	}
 
+	if businessErrors.HasErrors() {
+		return nil, businessErrors
+	}
+
 	pixKeyDomain, err = r.pixKeyRepository.RegisterPixKey(pixKeyDomain)
 	if err != nil {
 		return nil, err
 	}
 
-	return &response.RegisterPixKeyResponse{
-		Id:                    pixKeyDomain.GetID(),
-		PixKeyType:            pixKeyDomain.GetPixKeyType().String(),
-		PixKey:                pixKeyDomain.GetPixKey(),
-		AccountType:           pixKeyDomain.GetAccount().GetAccountType().String(),
-		AccountNumber:         pixKeyDomain.GetAccount().GetNumber(),
-		AgencyNumber:          pixKeyDomain.GetAccount().GetAgency(),
-		AccountHolderName:     pixKeyDomain.GetAccount().GetHolder().GetName(),
-		AccountHolderLastName: pixKeyDomain.GetAccount().GetHolder().GetLastName(),
-	}, nil
+	return PixKeyDomainToWebResponse(pixKeyDomain), nil
 
 }
 
@@ -76,4 +60,17 @@ func checkErrors(err error, be *businesserros.BusinessErrors) bool {
 		return false
 	}
 	return true
+}
+
+func PixKeyDomainToWebResponse(domain pix_key.PixKeyDomainInterface) *response.RegisterPixKeyResponse {
+	return &response.RegisterPixKeyResponse{
+		Id:                    domain.GetID(),
+		PixKeyType:            domain.GetPixKeyType().String(),
+		PixKey:                domain.GetPixKey(),
+		AccountType:           domain.GetAccount().GetAccountType().String(),
+		AccountNumber:         domain.GetAccount().GetNumber(),
+		AgencyNumber:          domain.GetAccount().GetAgency(),
+		AccountHolderName:     domain.GetAccount().GetHolder().GetName(),
+		AccountHolderLastName: domain.GetAccount().GetHolder().GetLastName(),
+	}
 }

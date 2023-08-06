@@ -26,16 +26,16 @@ func (m *mockRegisterPixKeyRepository) RegisterPixKey(_ pix_key.PixKeyDomainInte
 	return pixKeyDomain, nil
 }
 
-func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string, _ string) (bool, error) {
-	return false, nil
+func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string, _ string) error {
+	return nil
 }
 
 func (m *mockRegisterPixKeyRepositoryWithError) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
-	return nil, errors.New("error")
+	return nil, businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")
 }
 
-func (m *mockRegisterPixKeyRepositoryWithError) VerifyIfPixKeyAlreadyExists(_ string, _ string) (bool, error) {
-	return true, nil
+func (m *mockRegisterPixKeyRepositoryWithError) VerifyIfPixKeyAlreadyExists(_ string, _ string) error {
+	return businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")
 }
 
 func TestRegisterPixKeyService_Execute(t *testing.T) {
@@ -77,8 +77,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O tipo de conta esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Account Type", businessErrors[0].Field)
+	assert.Equal(t, "O tipo de conta esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Account Type", businessErrors[0].Field())
 	// Invalid Account Number
 	request.AccountType = "corrente"
 	request.AccountNumber = 0
@@ -86,8 +86,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O numero da conta esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Account Number", businessErrors[0].Field)
+	assert.Equal(t, "O numero da conta esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Account Number", businessErrors[0].Field())
 	// Invalid Account Agency
 	request.AccountNumber = 1
 	request.AgencyNumber = 0
@@ -95,8 +95,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O numero da agencia esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Agency Number", businessErrors[0].Field)
+	assert.Equal(t, "O numero da agencia esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Agency Number", businessErrors[0].Field())
 	// Invalid Holder Name
 	request.AgencyNumber = 1
 	request.AccountHolderName = ""
@@ -104,8 +104,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O nome do titular esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Account Holder Name", businessErrors[0].Field)
+	assert.Equal(t, "O nome do titular esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Account Holder Name", businessErrors[0].Field())
 	//Invalid Pix Key Type
 	request.AccountHolderName = "Joe"
 	request.PixKeyType = "invalid"
@@ -113,8 +113,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O tipo de chave esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Pix Key Type", businessErrors[0].Field)
+	assert.Equal(t, "O tipo de chave esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Pix Key Type", businessErrors[0].Field())
 	//Invalid Pix Key
 	request.PixKeyType = "cpf"
 	request.PixKey = ""
@@ -122,8 +122,8 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O valor da chave esta invalido.", businessErrors[0].Message)
-	assert.Equal(t, "Pix Key", businessErrors[0].Field)
+	assert.Equal(t, "O valor da chave esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "Pix Key", businessErrors[0].Field())
 
 }
 
@@ -148,6 +148,6 @@ func TestRegisterPixKeyService_ExecuteWithError(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "Chave pix ja cadastrada.", businessErrors[0].Message)
-	assert.Equal(t, "Pix Key", businessErrors[0].Field)
+	assert.Equal(t, "Chave pix ja cadastrada.", businessErrors[0].Error())
+	assert.Equal(t, "Pix Key", businessErrors[0].Field())
 }
