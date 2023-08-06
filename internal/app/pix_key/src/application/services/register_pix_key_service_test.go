@@ -5,8 +5,8 @@ import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services"
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/tests"
 	"testing"
 

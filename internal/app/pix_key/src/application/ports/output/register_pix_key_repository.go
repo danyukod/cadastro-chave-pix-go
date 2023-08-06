@@ -8,5 +8,5 @@ type RegisterPixKeyRepository interface {
 	RegisterPixKey(
 		pixKeyDomain pix_key.PixKeyDomainInterface,
 	) (pix_key.PixKeyDomainInterface, error)
-	VerifyIfPixKeyAlreadyExists(pixKeyType string, pixKey string) (bool, error)
+	VerifyIfPixKeyAlreadyExists(pixKeyType string, pixKey string) error
 }

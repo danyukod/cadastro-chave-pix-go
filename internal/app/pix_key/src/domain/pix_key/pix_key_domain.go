@@ -2,7 +2,7 @@ package pix_key
 
 import (
 	account2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/account"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/errors"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 )
 
 type pixKeyDomain struct {

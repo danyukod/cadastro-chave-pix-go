@@ -15,6 +15,8 @@ func GetErrorMsg(fe validator.FieldError) string {
 		return "Should be less than " + fe.Param()
 	case "gte":
 		return "Should be greater than " + fe.Param()
+	case "business":
+		return "Value " + fe.Param() + " is invalid to field " + fe.Field() + "."
 	}
 	return "Unknown error"
 }

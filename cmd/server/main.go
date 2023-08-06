@@ -12,19 +12,16 @@ func main() {
 
 	conf, err := configs.LoadConfig("cmd/server")
 
-	//err = configs.MigrateDatabase(conf)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-
 	database, err := configs.NewPixKeyDatabaseFactory(conf)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkForError(err)
 
 	pixKeyController := factories.NewPixKeyControllerFactory(database)
 
 	err = factories.NewPixKeyRouterFactory(pixKeyController)
+	checkForError(err)
+}
+
+func checkForError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/errors"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -32,7 +32,7 @@ func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyReque
 
 func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
 	var businessErrors businesserrors.BusinessErrors
-	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido."))
+	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
 }
 
@@ -103,12 +103,13 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response map[string][]response2.ErrorResponse
+		var response []response2.ErrorResponse
 
-		json.Unmarshal(w.Body.Bytes(), &response)
+		err := json.Unmarshal(w.Body.Bytes(), &response)
 
-		assert.Equal(t, "Pix Key", response["errors"][0].Field)
-		assert.Equal(t, "O valor da chave esta invalido.", response["errors"][0].Message)
+		assert.Nil(t, err)
+		assert.Equal(t, "Pix Key", response[0].Field)
+		assert.Equal(t, "Value 123 is invalid to field Pix Key.", response[0].Message)
 	})
 
 	t.Run("should return 400 status code when invalid request body", func(t *testing.T) {
@@ -139,7 +140,10 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		var response map[string][]response2.ErrorResponse
 
-		json.Unmarshal(w.Body.Bytes(), &response)
+		err := json.Unmarshal(w.Body.Bytes(), &response)
+		if err != nil {
+			return
+		}
 
 		assert.Equal(t, "PixKeyType", response["errors"][0].Field)
 		assert.Equal(t, "This field is required", response["errors"][0].Message)

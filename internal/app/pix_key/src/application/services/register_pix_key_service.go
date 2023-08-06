@@ -6,14 +6,16 @@ import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/account"
-	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/holder"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
+	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 )
 
 type RegisterPixKeyService struct {
 	pixKeyRepository output.RegisterPixKeyRepository
 }
+
+var businessErrors businesserros.BusinessErrors
 
 func NewRegisterPixKeyService(
 	pixKeyRepository output.RegisterPixKeyRepository) *RegisterPixKeyService {
@@ -21,48 +23,30 @@ func NewRegisterPixKeyService(
 }
 
 func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error) {
-	var businessErrors businesserros.BusinessErrors
+
+	var be *businesserros.BusinessErrors
+
 	holderDomain, err := holder.NewHolderDomain(request.AccountHolderName, request.AccountHolderLastName)
-	if err != nil {
-		var be businesserros.BusinessErrors
-		if !errors.As(err, &be) {
-			return nil, err
-		}
-		businessErrors = businesserros.AppendErrors(businessErrors, be)
-	}
 
 	accountType := account.AccountTypeFromText(request.AccountType)
 	accoutDomain, err := account.NewAccountDomain(request.AccountNumber, request.AgencyNumber, accountType, holderDomain)
-	if err != nil {
-		var be businesserros.BusinessErrors
-		if !errors.As(err, &be) {
-			return nil, err
-		}
-		businessErrors = businesserros.AppendErrors(businessErrors, be)
+	if checkErrors(err, be) {
+		return nil, err
 	}
 
 	pixKeyType := pix_key.PixKeyTypeFromText(request.PixKeyType)
 	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyType, request.PixKey, accoutDomain)
-	if err != nil {
-		var be businesserros.BusinessErrors
-		if !errors.As(err, &be) {
-			return nil, err
-		}
-		businessErrors = businesserros.AppendErrors(businessErrors, be)
+	if checkErrors(err, be) {
+		return nil, err
 	}
 
 	if businessErrors.HasErrors() {
 		return nil, businessErrors
 	}
 
-	exists, err := r.pixKeyRepository.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
-	if err != nil {
+	err = r.pixKeyRepository.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
+	if checkErrors(err, be) {
 		return nil, err
-	}
-
-	if exists {
-		businessErrors = businesserros.AddError(businessErrors, *businesserros.NewBusinessError("Pix Key", "Chave pix ja cadastrada."))
-		return nil, businessErrors
 	}
 
 	pixKeyDomain, err = r.pixKeyRepository.RegisterPixKey(pixKeyDomain)
@@ -81,4 +65,15 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 		AccountHolderLastName: pixKeyDomain.GetAccount().GetHolder().GetLastName(),
 	}, nil
 
+}
+
+func checkErrors(err error, be *businesserros.BusinessErrors) bool {
+	if err == nil {
+		return false
+	}
+	if errors.As(err, &be) {
+		businessErrors = businesserros.AppendErrors(businessErrors, *be)
+		return false
+	}
+	return true
 }
