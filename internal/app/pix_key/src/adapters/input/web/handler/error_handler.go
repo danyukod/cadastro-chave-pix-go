@@ -21,7 +21,7 @@ func ErrorHandler(c *gin.Context, err error) {
 	default:
 		defaultErrorHandler(c, err)
 	}
-
+	return
 }
 
 func defaultErrorHandler(c *gin.Context, err error) {

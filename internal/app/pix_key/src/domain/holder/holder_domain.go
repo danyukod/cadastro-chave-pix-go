@@ -12,7 +12,7 @@ type holderDomain struct {
 func (h *holderDomain) Validate() error {
 	var businessErrors businesserrors.BusinessErrors
 	if len(h.name) < 3 || len(h.name) > 50 {
-		businessErrors = businesserrors.AddError(businessErrors, businesserrors.NewBusinessError("Account Holder Name", "O nome do titular esta invalido.", "holderName"))
+		businessErrors = businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Account Holder Name", "O nome do titular esta invalido.", "holderName"))
 	}
 	if businessErrors.Len() > 0 {
 		return businessErrors

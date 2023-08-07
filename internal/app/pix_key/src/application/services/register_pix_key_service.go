@@ -24,7 +24,7 @@ func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyReq
 
 	var be *businesserros.BusinessErrors
 
-	pixKeyDomain, err := pix_key.NewPixKeyDomain(request)
+	pixKeyDomain, err := pix_key.PixKeyDomainFromRequest(request)
 	if checkErrors(err, be) {
 		return nil, err
 	}

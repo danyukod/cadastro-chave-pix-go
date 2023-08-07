@@ -15,6 +15,6 @@ func PixKeyMockFactory() (pix_key.PixKeyDomainInterface, error) {
 		AccountHolderName:     "John",
 		AccountHolderLastName: "Doe",
 	}
-	pixKeyDomain, err := pix_key.NewPixKeyDomain(pixKeyRequest)
+	pixKeyDomain, err := pix_key.PixKeyDomainFromRequest(pixKeyRequest)
 	return pixKeyDomain, err
 }

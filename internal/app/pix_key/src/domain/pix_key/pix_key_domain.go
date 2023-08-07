@@ -1,6 +1,7 @@
 package pix_key
 
 import (
+	application "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	account2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/account"
 )
 
@@ -12,12 +13,12 @@ type pixKeyDomain struct {
 }
 
 func (p *pixKeyDomain) Validate() error {
-	var businessErrors errors.BusinessErrors
+	var businessErrors application.BusinessErrors
 	if p.pixKeyType.EnumIndex() == 0 {
-		businessErrors = errors.AddError(businessErrors, errors.NewBusinessError("Pix Key Type", "O tipo de chave esta invalido.", p.pixKeyType.String()))
+		businessErrors = application.AddError(businessErrors, *application.NewBusinessError("Pix Key Type", "O tipo de chave esta invalido.", p.pixKeyType.String()))
 	}
 	if p.pixKey == "" || p.pixKeyType.PixKeyValidate(p.pixKey) == false {
-		businessErrors = errors.AddError(businessErrors, errors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", p.pixKeyType.String()))
+		businessErrors = application.AddError(businessErrors, *application.NewBusinessError("Pix Key", "O valor da chave esta invalido.", p.pixKeyType.String()))
 	}
 	if businessErrors.Len() > 0 {
 		return businessErrors

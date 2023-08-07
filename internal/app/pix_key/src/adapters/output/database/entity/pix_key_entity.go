@@ -1,6 +1,10 @@
 package entity
 
-import "time"
+import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
+	"github.com/google/uuid"
+	"time"
+)
 
 type PixKeyEntity struct {
 	ID                    string    `sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
@@ -17,4 +21,25 @@ type PixKeyEntity struct {
 
 func (PixKeyEntity) TableName() string {
 	return "pix_key"
+}
+
+func ConvertDomainToEntity(domain pix_key.PixKeyDomainInterface) PixKeyEntity {
+	var id string
+	if domain.GetID() != "" {
+		id = domain.GetID()
+	} else {
+		id = uuid.NewString()
+	}
+	return PixKeyEntity{
+		ID:                    id,
+		PixKeyType:            domain.GetPixKeyType().String(),
+		PixKey:                domain.GetPixKey(),
+		AccountType:           domain.GetAccount().GetAccountType().String(),
+		AccountNumber:         domain.GetAccount().GetNumber(),
+		AgencyNumber:          domain.GetAccount().GetAgency(),
+		AccountHolderName:     domain.GetAccount().GetHolder().GetName(),
+		AccountHolderLastName: domain.GetAccount().GetHolder().GetLastName(),
+		CreatedAt:             time.Now(),
+		ModifiedAt:            time.Now(),
+	}
 }
