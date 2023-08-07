@@ -4,9 +4,9 @@ import (
 	"errors"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
+	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
-	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 )
 
 type RegisterPixKeyService struct {

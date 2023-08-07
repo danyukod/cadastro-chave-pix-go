@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -78,7 +78,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 		assert.Equal(t, "Kodavara", response.AccountHolderLastName)
 	})
 
-	t.Run("should return 400 status code and error message when invalid PixKey", func(t *testing.T) {
+	t.Run("should return 400 status code and handler message when invalid PixKey", func(t *testing.T) {
 
 		mockUseCase := &mockRegisterPixKeyUseCaseError{}
 		controller := NewPixKeyControllerInterface(mockUseCase)

@@ -26,14 +26,14 @@ func (p PixKeyPersistenceMock) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInt
 }
 
 func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
-	t.Run("should return an error when persistence layer returns an error", func(t *testing.T) {
+	t.Run("should return an handler when persistence layer returns an handler", func(t *testing.T) {
 
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil
 			},
 			createPixKeyFunc: func(pixKeyDomain pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
-				return nil, errors.New("error creating pix key")
+				return nil, errors.New("handler creating pix key")
 			},
 		}
 

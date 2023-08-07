@@ -2,7 +2,6 @@ package account
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/holder"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 )
 
 type accountDomain struct {

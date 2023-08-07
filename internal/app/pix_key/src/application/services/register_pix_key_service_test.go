@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/tests"
 	"testing"
 
@@ -70,7 +70,7 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 
 	var businessErrors businesserrors.BusinessErrors
 
-	// Test error handling
+	// Test handler handling
 	// Invalid Account Type
 	request.AccountType = "invalid"
 	response, err = service.Execute(request)
@@ -141,7 +141,7 @@ func TestRegisterPixKeyService_ExecuteWithError(t *testing.T) {
 		PixKey:                "39357160876",
 	}
 
-	// Test error handling
+	// Test handler handling
 	response, err := service.Execute(request)
 	var businessErrors businesserrors.BusinessErrors
 

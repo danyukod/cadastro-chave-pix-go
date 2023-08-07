@@ -1,6 +1,8 @@
 package response
 
-import "github.com/go-playground/validator/v10"
+import (
+	"github.com/go-playground/validator/v10"
+)
 
 type ErrorResponse struct {
 	Field   string `json:"field"`
@@ -15,8 +17,6 @@ func GetErrorMsg(fe validator.FieldError) string {
 		return "Should be less than " + fe.Param()
 	case "gte":
 		return "Should be greater than " + fe.Param()
-	case "business":
-		return "Value " + fe.Param() + " is invalid to field " + fe.Field() + "."
 	}
-	return "Unknown error"
+	return "Unknown handler"
 }

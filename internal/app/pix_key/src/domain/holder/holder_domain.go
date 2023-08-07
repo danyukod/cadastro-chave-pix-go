@@ -1,7 +1,7 @@
 package holder
 
 import (
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/errors"
+	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 )
 
 type holderDomain struct {
