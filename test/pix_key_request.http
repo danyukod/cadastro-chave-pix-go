@@ -1,0 +1,27 @@
+# curl --location 'localhost:8080/pix/keys'
+#--header 'Content-Type: application/json'
+#--data '{
+#    "pixKeyType":"cpf",
+#    "pixKey":"39357160876",
+#    "accountType":"CORRENTE",
+#    "agencyNumber": 1,
+#    "accountNumber": 99999999,
+#    "accountHolderName":"Danilo",
+#    "accountHolderLastName":"Kodavara"
+#}'
+#Create Pix Key
+POST localhost:8080/pix/keys
+Content-Type: application/json
+
+{
+  "pixKeyType": "cpf",
+  "pixKey": "753.799.550-88",
+  "accountType": "CORRENTE",
+  "agencyNumber": 1,
+  "accountNumber": 99999999,
+  "accountHolderName": "Jon",
+  "accountHolderLastName": "Snow"
+}
+
+###
+

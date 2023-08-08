@@ -8,7 +8,6 @@ import (
 
 func NewPixKeyRouterFactory(pixKeyController controller.PixKeyControllerInterface) error {
 	router := gin.Default()
-	router.Use(gin.Logger())
 	routes.InitRoutes(&router.RouterGroup, pixKeyController)
 
 	return router.Run(":8080")
