@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/output/database/errors"
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
@@ -29,7 +30,7 @@ func (p registerPixKeyRepository) RegisterPixKey(pixKeyDomain pix_key.PixKeyDoma
 
 func (p registerPixKeyRepository) VerifyIfPixKeyAlreadyExists(pixKeyType string, pixKey string) error {
 	pixKeyDomain, err := p.pixKeyPersistence.FindPixKeyByKeyAndType(pixKeyType, pixKey)
-	if err != nil {
+	if err != nil && !errors.IsNoRecordError(err) {
 		return err
 	}
 

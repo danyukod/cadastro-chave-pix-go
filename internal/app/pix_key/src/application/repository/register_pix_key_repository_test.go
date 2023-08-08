@@ -88,7 +88,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 		assert.NotNil(t, err)
 	})
 
-	t.Run("should return error nil when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
+	t.Run("should return errors nil when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil

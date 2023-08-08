@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/output/database/entity"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/output/database/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
 	"gorm.io/gorm"
@@ -41,7 +42,7 @@ func (p pixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey stri
 
 	err := p.db.Where("pix_key_type = ?", pixKeyType).Where("pix_key = ?", pixKey).First(&pixKeyEntity).Error
 	if err != nil {
-		return nil, err
+		return nil, errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key_type = "+pixKeyType+" pix_key = "+pixKey)
 	}
 
 	pixKeyDomain, err := entity.PixKeyDomainFromEntity(pixKeyEntity)

@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "pixKeyType": "cpf",
-  "pixKey": "753.799.550-88",
+  "pixKey": "75379955088",
   "accountType": "CORRENTE",
   "agencyNumber": 1,
   "accountNumber": 99999999,
