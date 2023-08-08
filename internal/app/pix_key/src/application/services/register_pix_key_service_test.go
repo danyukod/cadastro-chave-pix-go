@@ -31,11 +31,11 @@ func (m *mockRegisterPixKeyRepository) VerifyIfPixKeyAlreadyExists(_ string, _ s
 }
 
 func (m *mockRegisterPixKeyRepositoryWithError) RegisterPixKey(_ pix_key.PixKeyDomainInterface) (pix_key.PixKeyDomainInterface, error) {
-	return nil, businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")
+	return nil, businesserrors.BusinessErrors{*businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")}
 }
 
 func (m *mockRegisterPixKeyRepositoryWithError) VerifyIfPixKeyAlreadyExists(_ string, _ string) error {
-	return businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")
+	return businesserrors.BusinessErrors{*businesserrors.NewBusinessError("PixKey", "PixKey already exists", "123")}
 }
 
 func TestRegisterPixKeyService_Execute(t *testing.T) {
@@ -144,10 +144,11 @@ func TestRegisterPixKeyService_ExecuteWithError(t *testing.T) {
 	// Test handler handling
 	response, err := service.Execute(request)
 	var businessErrors businesserrors.BusinessErrors
+	errors.As(err, &businessErrors)
 
-	assert.NotNil(t, err)
+	assert.NotNil(t, businessErrors)
 	assert.Nil(t, response)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "Chave pix ja cadastrada.", businessErrors[0].Error())
-	assert.Equal(t, "Pix Key", businessErrors[0].Field())
+	assert.Equal(t, "PixKey already exists", businessErrors[0].Error())
+	assert.Equal(t, "PixKey", businessErrors[0].Field())
 }

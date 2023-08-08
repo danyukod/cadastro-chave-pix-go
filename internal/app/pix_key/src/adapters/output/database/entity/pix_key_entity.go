@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/account"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/holder"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
 	"github.com/google/uuid"
 	"time"
@@ -42,4 +44,25 @@ func ConvertDomainToEntity(domain pix_key.PixKeyDomainInterface) PixKeyEntity {
 		CreatedAt:             time.Now(),
 		ModifiedAt:            time.Now(),
 	}
+}
+
+func PixKeyDomainFromEntity(entity PixKeyEntity) (pix_key.PixKeyDomainInterface, error) {
+	holderDomain, err := holder.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
+	if err != nil {
+		return nil, err
+	}
+
+	accountDomain, err := account.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, account.AccountTypeFromText(entity.AccountType), holderDomain)
+	if err != nil {
+		return nil, err
+	}
+
+	pixKeyDomain, err := pix_key.NewPixKeyDomain(pix_key.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, accountDomain)
+	if err != nil {
+		return nil, err
+	}
+
+	pixKeyDomain.SetID(entity.ID)
+
+	return pixKeyDomain, nil
 }

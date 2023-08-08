@@ -4,7 +4,6 @@ import (
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
-	"github.com/go-playground/validator/v10"
 )
 
 type registerPixKeyRepository struct {
@@ -43,10 +42,10 @@ func (p registerPixKeyRepository) VerifyIfPixKeyAlreadyExists(pixKeyType string,
 
 func createBusinessError(pixKey string) businesserros.BusinessErrors {
 	var businessErrors businesserros.BusinessErrors
-	businessErrors = append(businessErrors, createPixKeyAlreadyExistsError(pixKey))
+	businessErrors = append(businessErrors, *createPixKeyAlreadyExistsError(pixKey))
 	return businessErrors
 }
 
-func createPixKeyAlreadyExistsError(pixKey string) validator.FieldError {
+func createPixKeyAlreadyExistsError(pixKey string) *businesserros.BusinessError {
 	return businesserros.NewBusinessError("PixKey", "Chave pix ja cadastrada.", pixKey)
 }

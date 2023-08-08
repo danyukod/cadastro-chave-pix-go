@@ -109,7 +109,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.Equal(t, "Pix Key", response[0].Field)
-		assert.Equal(t, "Value 123 is invalid to field Pix Key.", response[0].Message)
+		assert.Equal(t, "O valor da chave esta invalido.", response[0].Message)
 	})
 
 	t.Run("should return 400 status code when invalid request body", func(t *testing.T) {

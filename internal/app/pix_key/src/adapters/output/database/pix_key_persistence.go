@@ -28,7 +28,7 @@ func (p pixKeyPersistence) CreatePixKey(pixKeyDomain pix_key.PixKeyDomainInterfa
 		return nil, err
 	}
 
-	pixKeyDomain, err = pix_key.PixKeyDomainFromEntity(pixKeyEntity)
+	pixKeyDomain, err = entity.PixKeyDomainFromEntity(pixKeyEntity)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (p pixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey stri
 		return nil, err
 	}
 
-	pixKeyDomain, err := pix_key.PixKeyDomainFromEntity(pixKeyEntity)
+	pixKeyDomain, err := entity.PixKeyDomainFromEntity(pixKeyEntity)
 	if err != nil {
 		return nil, err
 	}

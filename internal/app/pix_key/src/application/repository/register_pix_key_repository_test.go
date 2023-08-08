@@ -2,6 +2,7 @@ package repository_test
 
 import (
 	"errors"
+	application "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/repository"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
@@ -66,7 +67,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 		assert.NotNil(t, result)
 	})
 
-	t.Run("should return true when persistence layer find a PixKeyDomain", func(t *testing.T) {
+	t.Run("should return businessError when persistence layer find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return tests.PixKeyMockFactory()
@@ -78,13 +79,16 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 		repo := repository.NewRegisterPixKeyRepository(pixKeyPersistenceMock)
 
-		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
+		var businesError application.BusinessErrors
 
-		assert.Nil(t, err)
-		assert.True(t, result)
+		err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
+		assert.IsType(t, businesError, err)
+		assert.Equal(t, "PixKey", err.(application.BusinessErrors)[0].Field())
+		assert.Equal(t, "Chave pix ja cadastrada.", err.(application.BusinessErrors)[0].Error())
+		assert.NotNil(t, err)
 	})
 
-	t.Run("should return false when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
+	t.Run("should return error nil when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (pix_key.PixKeyDomainInterface, error) {
 				return nil, nil
@@ -96,9 +100,8 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 
 		repo := repository.NewRegisterPixKeyRepository(pixKeyPersistenceMock)
 
-		result, err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
+		err := repo.VerifyIfPixKeyAlreadyExists("cpf", "39357160876")
 
 		assert.Nil(t, err)
-		assert.False(t, result)
 	})
 }
