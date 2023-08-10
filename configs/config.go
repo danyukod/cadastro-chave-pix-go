@@ -38,7 +38,15 @@ type Config interface {
 	GetTest() bool
 }
 
-func LoadConfig(path string) (Config, error) {
+func LoadConfig(filePath string) (*Config, error) {
+	conf, err := loadConfig(filePath)
+	if err != nil {
+		return nil, err
+	}
+	return &conf, nil
+}
+
+func loadConfig(path string) (Config, error) {
 	var cfg *conf
 
 	viper.SetConfigType("env")

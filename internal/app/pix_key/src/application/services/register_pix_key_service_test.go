@@ -52,7 +52,7 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 		PixKey:                "39357160876",
 	}
 
-	expectedResponse := response.RegisterPixKeyResponse{
+	expectedResponse := response.FindPixKeyResponse{
 		Id:                    "1",
 		PixKeyType:            "CPF",
 		PixKey:                "39357160876",

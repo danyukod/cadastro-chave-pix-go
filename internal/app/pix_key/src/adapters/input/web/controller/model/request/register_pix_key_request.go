@@ -9,3 +9,8 @@ type RegisterPixKeyRequest struct {
 	AccountHolderName     string `json:"accountHolderName" binding:"required"`
 	AccountHolderLastName string `json:"accountHolderLastName"`
 }
+
+type FindPixKeyRequest struct {
+	PixKeyType string `uri:"pixKeyType" binding:"required"`
+	PixKey     string `uri:"pixKey" binding:"required"`
+}

@@ -17,8 +17,8 @@ type mockRegisterPixKeyUseCase struct{}
 
 type mockRegisterPixKeyUseCaseError struct{}
 
-func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
-	return &response2.RegisterPixKeyResponse{
+func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.FindPixKeyResponse, error) {
+	return &response2.FindPixKeyResponse{
 		Id:                    "12345678900",
 		PixKeyType:            "CPF",
 		PixKey:                "39357160876",
@@ -30,7 +30,7 @@ func (m *mockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyReque
 	}, nil
 }
 
-func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.RegisterPixKeyResponse, error) {
+func (m *mockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response2.FindPixKeyResponse, error) {
 	var businessErrors businesserrors.BusinessErrors
 	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
@@ -65,7 +65,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusCreated, w.Code)
 
-		var response response2.RegisterPixKeyResponse
+		var response response2.FindPixKeyResponse
 		json.Unmarshal(w.Body.Bytes(), &response)
 
 		assert.NotNil(t, response)

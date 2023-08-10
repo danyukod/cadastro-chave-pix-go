@@ -20,7 +20,7 @@ func NewRegisterPixKeyService(
 	return &RegisterPixKeyService{pixKeyRepository}
 }
 
-func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyRequest) (*response.RegisterPixKeyResponse, error) {
+func (r *RegisterPixKeyService) Execute(request requestpackage.RegisterPixKeyRequest) (*response.FindPixKeyResponse, error) {
 
 	var be *businesserros.BusinessErrors
 
@@ -62,8 +62,8 @@ func checkErrors(err error, be *businesserros.BusinessErrors) bool {
 	return true
 }
 
-func PixKeyDomainToWebResponse(domain pix_key.PixKeyDomainInterface) *response.RegisterPixKeyResponse {
-	return &response.RegisterPixKeyResponse{
+func PixKeyDomainToWebResponse(domain pix_key.PixKeyDomainInterface) *response.FindPixKeyResponse {
+	return &response.FindPixKeyResponse{
 		Id:                    domain.GetID(),
 		PixKeyType:            domain.GetPixKeyType().String(),
 		PixKey:                domain.GetPixKey(),

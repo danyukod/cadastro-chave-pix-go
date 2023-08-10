@@ -5,9 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitRoutes(
+func InitPixKeyRoutes(
 	r *gin.RouterGroup,
 	pixKeyController controller.PixKeyControllerInterface,
 ) {
+	r.GET("/pix/keys/:key", pixKeyController.FindPixKeyByKindAndKey)
 	r.POST("/pix/keys", pixKeyController.RegisterPixKey)
 }

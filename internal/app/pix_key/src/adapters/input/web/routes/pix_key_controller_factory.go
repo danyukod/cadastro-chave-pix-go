@@ -1,4 +1,4 @@
-package factories
+package routes
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller"
@@ -11,6 +11,7 @@ import (
 func NewPixKeyControllerFactory(database *gorm.DB) controller.PixKeyControllerInterface {
 	persistence := persistence2.NewPixKeyPersistence(database)
 	repo := repository.NewRegisterPixKeyRepository(persistence)
-	registerPixKeyUsecase := services.NewRegisterPixKeyService(repo)
-	return controller.NewPixKeyControllerInterface(registerPixKeyUsecase)
+	registerPixKeyUseCase := services.NewRegisterPixKeyService(repo)
+	findPixKeyUseCase := services.NewFindPixKeyService()
+	return controller.NewPixKeyControllerInterface(registerPixKeyUseCase, findPixKeyUseCase)
 }

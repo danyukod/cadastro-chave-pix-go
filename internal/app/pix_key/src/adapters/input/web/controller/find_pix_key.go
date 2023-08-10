@@ -7,20 +7,20 @@ import (
 	"net/http"
 )
 
-func (p *pixKeyController) RegisterPixKey(c *gin.Context) {
-	var request modelrequest.RegisterPixKeyRequest
+func (p *pixKeyController) FindPixKeyByKindAndKey(c *gin.Context) {
+	var request modelrequest.FindPixKeyRequest
 
-	err := c.ShouldBindJSON(&request)
+	err := c.ShouldBindUri(&request)
 	if err != nil {
 		handler.ErrorHandler(c, err)
 		return
 	}
 
-	pixKeyResponse, err := p.registerPixKeyUsecase.Execute(request)
+	pixKeyResponse, err := p.findPixKeyUsecase.Execute(request)
 	if err != nil {
 		handler.ErrorHandler(c, err)
 		return
 	}
 
-	c.JSON(http.StatusCreated, pixKeyResponse)
+	c.JSON(http.StatusOK, pixKeyResponse)
 }

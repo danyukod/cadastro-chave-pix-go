@@ -6,17 +6,21 @@ import (
 )
 
 func NewPixKeyControllerInterface(
-	usecase input.RegisterPixKeyUsecase,
+	registerPixKeyUsecase input.RegisterPixKeyUsecase,
+	findPixKeyUsecase input.FindPixKeyUsecase,
 ) PixKeyControllerInterface {
 	return &pixKeyController{
-		usecase: usecase,
+		registerPixKeyUsecase: registerPixKeyUsecase,
+		findPixKeyUsecase:     findPixKeyUsecase,
 	}
 }
 
 type PixKeyControllerInterface interface {
 	RegisterPixKey(c *gin.Context)
+	FindPixKeyByKindAndKey(c *gin.Context)
 }
 
 type pixKeyController struct {
-	usecase input.RegisterPixKeyUsecase
+	registerPixKeyUsecase input.RegisterPixKeyUsecase
+	findPixKeyUsecase     input.FindPixKeyUsecase
 }
