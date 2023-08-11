@@ -1,11 +1,11 @@
 package tests
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/pix_key"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/input/web/controller/model/request"
 )
 
-func PixKeyMockFactory() (pix_key.PixKeyDomainInterface, error) {
+func PixKeyMockFactory() (domain.PixKeyDomainInterface, error) {
 	pixKeyRequest := request.RegisterPixKeyRequest{
 		PixKeyType:            "cpf",
 		PixKey:                "39357160876",
@@ -15,6 +15,6 @@ func PixKeyMockFactory() (pix_key.PixKeyDomainInterface, error) {
 		AccountHolderName:     "John",
 		AccountHolderLastName: "Doe",
 	}
-	pixKeyDomain, err := pix_key.PixKeyDomainFromRequest(pixKeyRequest)
+	pixKeyDomain, err := domain.PixKeyDomainFromRequest(pixKeyRequest)
 	return pixKeyDomain, err
 }
