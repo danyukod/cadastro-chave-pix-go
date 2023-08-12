@@ -3,8 +3,8 @@ package commands
 import (
 	"errors"
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services/ports/persistence"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
 )
 
@@ -13,12 +13,12 @@ type RegisterPixKeyUsecase interface {
 }
 
 type RegisterPixKeyService struct {
-	pixKeyRepository persistence.RegisterPixKeyRepository
+	persistence orm.PixKeyPersistenceInterface
 }
 
 func NewRegisterPixKeyService(
-	pixKeyRepository persistence.RegisterPixKeyRepository) *RegisterPixKeyService {
-	return &RegisterPixKeyService{pixKeyRepository}
+	persistence orm.PixKeyPersistenceInterface) *RegisterPixKeyService {
+	return &RegisterPixKeyService{persistence: persistence}
 }
 
 func (r *RegisterPixKeyService) Execute(request request.RegisterPixKeyRequest) (domain.PixKeyDomainInterface, error) {
@@ -35,7 +35,7 @@ func (r *RegisterPixKeyService) Execute(request request.RegisterPixKeyRequest) (
 		return nil, businessErrors
 	}
 
-	err = r.pixKeyRepository.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
+	err = r.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
 	if checkErrors(err, be) {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (r *RegisterPixKeyService) Execute(request request.RegisterPixKeyRequest) (
 		return nil, businessErrors
 	}
 
-	pixKeyDomain, err = r.pixKeyRepository.RegisterPixKey(pixKeyDomain)
+	pixKeyDomain, err = r.RegisterPixKey(pixKeyDomain)
 	if err != nil {
 		return nil, err
 	}
@@ -64,4 +64,27 @@ func checkErrors(err error, be *businesserros.BusinessErrors) bool {
 		return false
 	}
 	return true
+}
+
+func (r *RegisterPixKeyService) RegisterPixKey(pixKeyDomain domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error) {
+	pixKeyDomain, err := r.persistence.CreatePixKey(pixKeyDomain)
+	if err != nil {
+		return nil, err
+	}
+
+	return pixKeyDomain, nil
+}
+
+func (r *RegisterPixKeyService) VerifyIfPixKeyAlreadyExists(pixKeyType string, pixKey string) error {
+	var businessErrors businesserros.BusinessErrors
+	pixKeyDomain, err := r.persistence.FindPixKeyByKeyAndType(pixKeyType, pixKey)
+	if err != nil {
+		return err
+	}
+
+	if pixKeyDomain != nil {
+		return businesserros.AddError(businessErrors, *businesserros.CreatePixKeyAlreadyExistsError(pixKey))
+	}
+
+	return nil
 }

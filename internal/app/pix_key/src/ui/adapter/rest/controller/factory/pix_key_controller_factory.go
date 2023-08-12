@@ -9,8 +9,7 @@ import (
 
 func NewPixKeyControllerFactory(gormDB *gorm.DB) controller.PixKeyControllerInterface {
 	persistence := orm.NewPixKeyPersistence(gormDB)
-	repo := persistence.NewRegisterPixKeyRepository(persistence)
-	registerPixKeyUseCase := commands.NewRegisterPixKeyService(repo)
-	findPixKeyUseCase := commands.NewFindPixKeyService()
+	registerPixKeyUseCase := commands.NewRegisterPixKeyService(persistence)
+	findPixKeyUseCase := commands.NewFindPixKeyService(persistence)
 	return controller.NewPixKeyControllerInterface(registerPixKeyUseCase, findPixKeyUseCase)
 }

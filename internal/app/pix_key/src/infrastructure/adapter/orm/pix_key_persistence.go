@@ -10,6 +10,7 @@ import (
 type PixKeyPersistenceInterface interface {
 	CreatePixKey(domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error)
 	FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error)
+	FindById(id string) (domain.PixKeyDomainInterface, error)
 }
 
 func NewPixKeyPersistence(db *gorm.DB) PixKeyPersistenceInterface {
@@ -20,6 +21,22 @@ func NewPixKeyPersistence(db *gorm.DB) PixKeyPersistenceInterface {
 
 type pixKeyPersistence struct {
 	db *gorm.DB
+}
+
+func (p pixKeyPersistence) FindById(pixKey string) (domain.PixKeyDomainInterface, error) {
+	var pixKeyEntity entity.PixKeyEntity
+
+	err := p.db.Where("id = ?", pixKey).First(&pixKeyEntity).Error
+	if err != nil {
+		return nil, errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key = "+pixKey)
+	}
+
+	pixKeyDomain, err := entity.PixKeyDomainFromEntity(pixKeyEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	return pixKeyDomain, nil
 }
 
 func (p pixKeyPersistence) CreatePixKey(pixKeyDomain domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error) {

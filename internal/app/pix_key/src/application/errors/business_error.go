@@ -51,3 +51,7 @@ func AddError(es BusinessErrors, e BusinessError) BusinessErrors {
 func AppendErrors(es BusinessErrors, newEs BusinessErrors) BusinessErrors {
 	return append(es, newEs...)
 }
+
+func CreatePixKeyAlreadyExistsError(pixKey string) *BusinessError {
+	return NewBusinessError("PixKey", "Chave pix ja cadastrada.", pixKey)
+}
