@@ -3,10 +3,10 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/adapters/input/web/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller"
+	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/pixKey"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
-	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/response"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -83,7 +83,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response []response.ErrorResponse
+		var response []handler.ErrorResponse
 
 		err := json.Unmarshal(w.Body.Bytes(), &response)
 
@@ -119,7 +119,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response map[string][]response.ErrorResponse
+		var response map[string][]handler.ErrorResponse
 
 		err := json.Unmarshal(w.Body.Bytes(), &response)
 		if err != nil {

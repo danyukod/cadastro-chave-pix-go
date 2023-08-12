@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/pixKey"
 	modelrequest "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/response"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -23,5 +23,5 @@ func (p *pixKeyController) FindPixKeyByKindAndKey(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, response.PixKeyDomainToFindWebResponse(pixKeyDomain))
+	c.JSON(http.StatusOK, pixKey.PixKeyDomainToFindWebResponse(pixKeyDomain))
 }

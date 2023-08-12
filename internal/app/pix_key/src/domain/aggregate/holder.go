@@ -1,8 +1,23 @@
-package holder
+package aggregate
 
-import (
-	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
-)
+import businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
+
+type HolderDomainInterface interface {
+	Validate() error
+	GetName() string
+	GetLastName() string
+}
+
+func NewHolderDomain(name string, lastName string) (HolderDomainInterface, error) {
+	holder := holderDomain{
+		name:     name,
+		lastName: lastName,
+	}
+	if err := holder.Validate(); err != nil {
+		return nil, err
+	}
+	return &holder, nil
+}
 
 type holderDomain struct {
 	name     string

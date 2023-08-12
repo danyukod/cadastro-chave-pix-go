@@ -2,8 +2,10 @@ package tests
 
 import (
 	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
 	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/response"
 )
 
 type MockRegisterPixKeyUseCase struct{}
@@ -14,39 +16,25 @@ type MockFindPixKeyUseCase struct{}
 
 type MockFindPixKeyUseCaseError struct{}
 
-func (m *MockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (*response.FindPixKeyResponse, error) {
-	return &response.FindPixKeyResponse{
-		Id:                    "12345678900",
-		PixKeyType:            "CPF",
-		PixKey:                "39357160876",
-		AccountType:           "CORRENTE",
-		AccountNumber:         123,
-		AgencyNumber:          1,
-		AccountHolderName:     "Danilo",
-		AccountHolderLastName: "Kodavara",
-	}, nil
+func (m *MockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (domain.PixKeyDomainInterface, error) {
+	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
+	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holderDomain)
+	return domain.NewPixKeyDomain(object_value.CPF, "39357160876", accountDomain)
 }
 
-func (m *MockFindPixKeyUseCase) Execute(_ requestpackage.FindPixKeyRequest) (*response.FindPixKeyResponse, error) {
-	return &response.FindPixKeyResponse{
-		Id:                    "12345678900",
-		PixKeyType:            "CPF",
-		PixKey:                "39357160876",
-		AccountType:           "CORRENTE",
-		AccountNumber:         123,
-		AgencyNumber:          1,
-		AccountHolderName:     "Danilo",
-		AccountHolderLastName: "Kodavara",
-	}, nil
+func (m *MockFindPixKeyUseCase) Execute(_ requestpackage.FindPixKeyRequest) (domain.PixKeyDomainInterface, error) {
+	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
+	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holderDomain)
+	return domain.NewPixKeyDomain(object_value.CPF, "39357160876", accountDomain)
 }
 
-func (m *MockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (*response.FindPixKeyResponse, error) {
+func (m *MockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (domain.PixKeyDomainInterface, error) {
 	var businessErrors businesserrors.BusinessErrors
 	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
 }
 
-func (m *MockFindPixKeyUseCaseError) Execute(_ requestpackage.FindPixKeyRequest) (*response.FindPixKeyResponse, error) {
+func (m *MockFindPixKeyUseCaseError) Execute(_ requestpackage.FindPixKeyRequest) (domain.PixKeyDomainInterface, error) {
 	var businessErrors businesserrors.BusinessErrors
 	businessErrors = append(businessErrors, *businesserrors.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors

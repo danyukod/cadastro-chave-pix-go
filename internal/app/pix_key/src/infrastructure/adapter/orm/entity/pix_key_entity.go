@@ -2,8 +2,7 @@ package entity
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
-	account2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate/account"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate/holder"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
 	"github.com/google/uuid"
 	"time"
@@ -48,12 +47,12 @@ func ConvertDomainToEntity(domain domain.PixKeyDomainInterface) PixKeyEntity {
 }
 
 func PixKeyDomainFromEntity(entity PixKeyEntity) (domain.PixKeyDomainInterface, error) {
-	holderDomain, err := holder.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
+	holderDomain, err := aggregate.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
 	if err != nil {
 		return nil, err
 	}
 
-	accountDomain, err := account2.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, account2.AccountTypeFromText(entity.AccountType), holderDomain)
+	accountDomain, err := aggregate.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, aggregate.AccountTypeFromText(entity.AccountType), holderDomain)
 	if err != nil {
 		return nil, err
 	}

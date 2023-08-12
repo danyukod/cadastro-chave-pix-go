@@ -1,9 +1,10 @@
 package orm
 
 import (
+	"errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm/entity"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm/errors"
+	orm_errors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm/errors"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +29,7 @@ func (p pixKeyPersistence) FindById(pixKey string) (domain.PixKeyDomainInterface
 
 	err := p.db.Where("id = ?", pixKey).First(&pixKeyEntity).Error
 	if err != nil {
-		return nil, errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key = "+pixKey)
+		return nil, orm_errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key = "+pixKey)
 	}
 
 	pixKeyDomain, err := entity.PixKeyDomainFromEntity(pixKeyEntity)
@@ -62,8 +63,12 @@ func (p pixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey stri
 	var pixKeyEntity entity.PixKeyEntity
 
 	err := p.db.Where("pix_key_type = ?", pixKeyType).Where("pix_key = ?", pixKey).First(&pixKeyEntity).Error
-	if err != nil {
-		return nil, errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key_type = "+pixKeyType+" pix_key = "+pixKey)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, orm_errors.NewPersistenceError(pixKeyEntity.TableName(), err.Error(), "pix_key_type = "+pixKeyType+" pix_key = "+pixKey)
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
 	}
 
 	pixKeyDomain, err := entity.PixKeyDomainFromEntity(pixKeyEntity)

@@ -1,4 +1,4 @@
-package response
+package pixKey
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
