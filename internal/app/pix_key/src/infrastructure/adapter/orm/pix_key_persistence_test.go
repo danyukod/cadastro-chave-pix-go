@@ -1,8 +1,8 @@
-package database_test
+package orm_test
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/output/database"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/output/database/entity"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm/entity"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/tests"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
@@ -13,11 +13,11 @@ import (
 func TestPixKeyPersistence_CreatePixKey(t *testing.T) {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
-		t.Fatalf("Failed to set up test database: %v", err)
+		t.Fatalf("Failed to set up test orm: %v", err)
 	}
 	db.AutoMigrate(&entity.PixKeyEntity{})
 
-	repo := database.NewPixKeyPersistence(db)
+	repo := orm.NewPixKeyPersistence(db)
 
 	pixKeyDomain, err := tests.PixKeyMockFactory()
 	if err != nil {
@@ -33,12 +33,12 @@ func TestPixKeyPersistence_CreatePixKey(t *testing.T) {
 func TestPixKeyPersistence_FindPixKeyByType(t *testing.T) {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
-		t.Fatalf("Failed to set up test database: %v", err)
+		t.Fatalf("Failed to set up test orm: %v", err)
 	}
 
 	db.AutoMigrate(&entity.PixKeyEntity{})
 
-	repo := database.NewPixKeyPersistence(db)
+	repo := orm.NewPixKeyPersistence(db)
 
 	pixKeyDomain, err := tests.PixKeyMockFactory()
 	if err != nil {

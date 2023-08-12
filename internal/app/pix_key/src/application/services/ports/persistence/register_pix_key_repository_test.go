@@ -1,4 +1,4 @@
-package output_test
+package persistence_test
 
 import (
 	"errors"
@@ -26,7 +26,7 @@ func (p PixKeyPersistenceMock) CreatePixKey(pixKeyDomain domain.PixKeyDomainInte
 }
 
 func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
-	t.Run("should return an handler when persistence layer returns an handler", func(t *testing.T) {
+	t.Run("should return an handler when orm layer returns an handler", func(t *testing.T) {
 
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error) {
@@ -46,7 +46,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 		assert.NotNil(t, err)
 	})
 
-	t.Run("should return a PixKeyDomain when persistence layer creates a new PixKeyDomain", func(t *testing.T) {
+	t.Run("should return a PixKeyDomain when orm layer creates a new PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error) {
 				return nil, nil
@@ -66,7 +66,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 		assert.NotNil(t, result)
 	})
 
-	t.Run("should return businessError when persistence layer find a PixKeyDomain", func(t *testing.T) {
+	t.Run("should return businessError when orm layer find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error) {
 				return tests.PixKeyMockFactory()
@@ -87,7 +87,7 @@ func TestRegisterPixKeyRepository_RegisterPixKey(t *testing.T) {
 		assert.NotNil(t, err)
 	})
 
-	t.Run("should return errors nil when persistence layer does not find a PixKeyDomain", func(t *testing.T) {
+	t.Run("should return errors nil when orm layer does not find a PixKeyDomain", func(t *testing.T) {
 		pixKeyPersistenceMock := PixKeyPersistenceMock{
 			findPixKeyByKeyAndTypeFunc: func(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error) {
 				return nil, nil

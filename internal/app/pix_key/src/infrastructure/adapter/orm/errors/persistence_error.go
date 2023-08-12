@@ -21,7 +21,7 @@ func IsNoRecordError(err error) bool {
 }
 
 func (b *PersistenceError) Tag() string {
-	return "persistence"
+	return "orm"
 }
 
 func (b *PersistenceError) Table() string {

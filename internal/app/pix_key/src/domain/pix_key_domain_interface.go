@@ -4,7 +4,7 @@ import (
 	account2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate/account"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate/holder"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/input/web/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
 )
 
 type PixKeyDomainInterface interface {

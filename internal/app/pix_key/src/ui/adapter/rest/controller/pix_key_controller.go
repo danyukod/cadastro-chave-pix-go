@@ -1,13 +1,13 @@
 package controller
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/input"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services/ports/commands"
 	"github.com/gin-gonic/gin"
 )
 
 func NewPixKeyControllerInterface(
-	registerPixKeyUsecase input.RegisterPixKeyUsecase,
-	findPixKeyUsecase input.FindPixKeyUsecase,
+	registerPixKeyUsecase commands.RegisterPixKeyUsecase,
+	findPixKeyUsecase commands.FindPixKeyUsecase,
 ) PixKeyControllerInterface {
 	return &pixKeyController{
 		registerPixKeyUsecase: registerPixKeyUsecase,
@@ -21,6 +21,6 @@ type PixKeyControllerInterface interface {
 }
 
 type pixKeyController struct {
-	registerPixKeyUsecase input.RegisterPixKeyUsecase
-	findPixKeyUsecase     input.FindPixKeyUsecase
+	registerPixKeyUsecase commands.RegisterPixKeyUsecase
+	findPixKeyUsecase     commands.FindPixKeyUsecase
 }

@@ -1,10 +1,10 @@
-package output
+package persistence
 
 import (
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/output/database"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/output/database/errors"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm/errors"
 )
 
 type RegisterPixKeyRepository interface {
@@ -15,11 +15,11 @@ type RegisterPixKeyRepository interface {
 }
 
 type registerPixKeyRepository struct {
-	pixKeyPersistence database.PixKeyPersistenceInterface
+	pixKeyPersistence orm.PixKeyPersistenceInterface
 }
 
 func NewRegisterPixKeyRepository(
-	pixKeyPersistence database.PixKeyPersistenceInterface,
+	pixKeyPersistence orm.PixKeyPersistenceInterface,
 ) RegisterPixKeyRepository {
 	return &registerPixKeyRepository{
 		pixKeyPersistence,

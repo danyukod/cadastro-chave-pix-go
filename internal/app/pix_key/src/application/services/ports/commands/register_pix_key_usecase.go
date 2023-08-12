@@ -1,11 +1,11 @@
-package input
+package commands
 
 import (
 	"errors"
 	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/ports/output"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services/ports/persistence"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapters/input/web/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
 )
 
 type RegisterPixKeyUsecase interface {
@@ -13,11 +13,11 @@ type RegisterPixKeyUsecase interface {
 }
 
 type RegisterPixKeyService struct {
-	pixKeyRepository output.RegisterPixKeyRepository
+	pixKeyRepository persistence.RegisterPixKeyRepository
 }
 
 func NewRegisterPixKeyService(
-	pixKeyRepository output.RegisterPixKeyRepository) *RegisterPixKeyService {
+	pixKeyRepository persistence.RegisterPixKeyRepository) *RegisterPixKeyService {
 	return &RegisterPixKeyService{pixKeyRepository}
 }
 
