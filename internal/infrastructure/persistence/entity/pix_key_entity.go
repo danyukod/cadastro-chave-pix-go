@@ -2,7 +2,7 @@ package entity
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
-	shared2 "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
 	"github.com/google/uuid"
 	"time"
 )
@@ -46,17 +46,17 @@ func ConvertDomainToEntity(domain model.PixKeyDomainInterface) PixKeyEntity {
 }
 
 func PixKeyDomainFromEntity(entity PixKeyEntity) (model.PixKeyDomainInterface, error) {
-	holderDomain, err := shared2.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
+	holderDomain, err := aggregate.NewHolderDomain(entity.AccountHolderName, entity.AccountHolderLastName)
 	if err != nil {
 		return nil, err
 	}
 
-	accountDomain, err := shared2.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, shared2.AccountTypeFromText(entity.AccountType), holderDomain)
+	accountDomain, err := aggregate.NewAccountDomain(entity.AccountNumber, entity.AgencyNumber, entity.AccountType, holderDomain)
 	if err != nil {
 		return nil, err
 	}
 
-	pixKeyDomain, err := model.NewPixKeyDomain(shared2.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, accountDomain)
+	pixKeyDomain, err := model.NewPixKeyDomain(entity.PixKeyType, entity.PixKey, accountDomain)
 	if err != nil {
 		return nil, err
 	}

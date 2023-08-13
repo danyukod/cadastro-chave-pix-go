@@ -1,4 +1,8 @@
-package shared
+package aggregate
+
+import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
+)
 
 type HolderDomainInterface interface {
 	Validate() error
@@ -23,9 +27,9 @@ type holderDomain struct {
 }
 
 func (h *holderDomain) Validate() error {
-	var businessErrors BusinessErrors
+	var businessErrors value_object.BusinessErrors
 	if len(h.name) < 3 || len(h.name) > 50 {
-		businessErrors = AddError(businessErrors, *NewBusinessError("Account Holder Name", "O nome do titular esta invalido.", "holderName"))
+		businessErrors = value_object.AddError(businessErrors, *value_object.NewBusinessError("Account Holder Name", "O nome do titular esta invalido.", "holderName"))
 	}
 	if businessErrors.Len() > 0 {
 		return businessErrors

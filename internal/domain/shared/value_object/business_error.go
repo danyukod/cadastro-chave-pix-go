@@ -1,4 +1,4 @@
-package shared
+package value_object
 
 type BusinessErrors []BusinessError
 

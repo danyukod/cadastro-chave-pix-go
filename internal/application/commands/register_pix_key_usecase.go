@@ -2,14 +2,15 @@ package commands
 
 import (
 	"errors"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands/dto"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
-	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
+	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
 )
 
 type RegisterPixKeyUsecase interface {
-	Execute(request.RegisterPixKeyRequest) (model.PixKeyDomainInterface, error)
+	Execute(dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error)
 }
 
 type RegisterPixKeyService struct {
@@ -21,12 +22,22 @@ func NewRegisterPixKeyService(
 	return &RegisterPixKeyService{persistence: persistence}
 }
 
-func (r *RegisterPixKeyService) Execute(request request.RegisterPixKeyRequest) (model.PixKeyDomainInterface, error) {
+func (r *RegisterPixKeyService) Execute(dto dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error) {
 	var businessErrors businesserros.BusinessErrors
 
 	var be *businesserros.BusinessErrors
 
-	pixKeyDomain, err := model.PixKeyDomainFromRequest(request)
+	holderDomain, err := aggregate.NewHolderDomain(dto.AccountHolderName, dto.AccountHolderLastName)
+	if checkErrors(err, be) {
+		return nil, err
+	}
+
+	accoutDomain, err := aggregate.NewAccountDomain(dto.AccountNumber, dto.AgencyNumber, dto.AccountType, holderDomain)
+	if checkErrors(err, be) {
+		return nil, err
+	}
+
+	pixKeyDomain, err := model.NewPixKeyDomain(dto.PixKeyType, dto.PixKey, accoutDomain)
 	if checkErrors(err, be) {
 		return nil, err
 	}

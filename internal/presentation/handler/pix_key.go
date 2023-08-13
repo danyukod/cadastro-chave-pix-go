@@ -37,7 +37,7 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 		return
 	}
 
-	pixKeyDomain, err := p.registerPixKeyUsecase.Execute(request)
+	pixKeyDomain, err := p.registerPixKeyUsecase.Execute(request.ToDTO())
 	if err != nil {
 		ErrorHandler(c, err)
 		return
@@ -55,7 +55,7 @@ func (p *handler) FindPixKeyByKey(c *gin.Context) {
 		return
 	}
 
-	pixKeyDomain, err := p.findPixKeyUsecase.Execute(request)
+	pixKeyDomain, err := p.findPixKeyUsecase.Execute(request.ToDTO())
 	if err != nil {
 		ErrorHandler(c, err)
 		return

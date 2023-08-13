@@ -1,9 +1,10 @@
 package tests
 
 import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands/dto"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
-	shared2 "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
 )
 
 type MockRegisterPixKeyUseCase struct{}
@@ -14,26 +15,26 @@ type MockFindPixKeyUseCase struct{}
 
 type MockFindPixKeyUseCaseError struct{}
 
-func (m *MockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (model.PixKeyDomainInterface, error) {
-	holderDomain, _ := shared2.NewHolderDomain("Danilo", "Kodavara")
-	accountDomain, _ := shared2.NewAccountDomain(123, 1, shared2.CORRENTE, holderDomain)
-	return model.NewPixKeyDomain(shared2.CPF, "39357160876", accountDomain)
+func (m *MockRegisterPixKeyUseCase) Execute(_ dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error) {
+	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
+	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holderDomain)
+	return model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", accountDomain)
 }
 
-func (m *MockFindPixKeyUseCase) Execute(_ requestpackage.FindPixKeyRequest) (model.PixKeyDomainInterface, error) {
-	holderDomain, _ := shared2.NewHolderDomain("Danilo", "Kodavara")
-	accountDomain, _ := shared2.NewAccountDomain(123, 1, shared2.CORRENTE, holderDomain)
-	return model.NewPixKeyDomain(shared2.CPF, "39357160876", accountDomain)
+func (m *MockFindPixKeyUseCase) Execute(_ dto.FindPixKeyDTO) (model.PixKeyDomainInterface, error) {
+	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
+	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holderDomain)
+	return model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", accountDomain)
 }
 
-func (m *MockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (model.PixKeyDomainInterface, error) {
-	var businessErrors shared2.BusinessErrors
-	businessErrors = append(businessErrors, *shared2.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
+func (m *MockRegisterPixKeyUseCaseError) Execute(_ dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error) {
+	var businessErrors value_object.BusinessErrors
+	businessErrors = append(businessErrors, *value_object.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
 }
 
-func (m *MockFindPixKeyUseCaseError) Execute(_ requestpackage.FindPixKeyRequest) (model.PixKeyDomainInterface, error) {
-	var businessErrors shared2.BusinessErrors
-	businessErrors = append(businessErrors, *shared2.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
+func (m *MockFindPixKeyUseCaseError) Execute(_ dto.FindPixKeyDTO) (model.PixKeyDomainInterface, error) {
+	var businessErrors value_object.BusinessErrors
+	businessErrors = append(businessErrors, *value_object.NewBusinessError("Pix Key", "O valor da chave esta invalido.", "123"))
 	return nil, businessErrors
 }

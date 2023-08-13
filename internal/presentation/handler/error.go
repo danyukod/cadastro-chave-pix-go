@@ -2,7 +2,7 @@ package handler
 
 import (
 	"errors"
-	application "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared"
+	application "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"

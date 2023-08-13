@@ -1,14 +1,14 @@
 package commands
 
 import (
+	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands/dto"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
-	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared"
+	businesserros "github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
 )
 
 type FindPixKeyUsecase interface {
-	Execute(request.FindPixKeyRequest) (model.PixKeyDomainInterface, error)
+	Execute(dto.FindPixKeyDTO) (model.PixKeyDomainInterface, error)
 }
 
 type FindPixKeyService struct {
@@ -21,10 +21,10 @@ func NewFindPixKeyService(persistence persistence.PixKeyPersistenceInterface) Fi
 	}
 }
 
-func (p *FindPixKeyService) Execute(r request.FindPixKeyRequest) (model.PixKeyDomainInterface, error) {
+func (p *FindPixKeyService) Execute(dto dto.FindPixKeyDTO) (model.PixKeyDomainInterface, error) {
 	var businessErrors businesserros.BusinessErrors
 
-	pixKeyDomain, err := p.persistence.FindById(r.PixKey)
+	pixKeyDomain, err := p.persistence.FindById(dto.Key)
 	if err != nil {
 		return nil, err
 	}
