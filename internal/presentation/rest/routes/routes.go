@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler"
 	"github.com/gin-gonic/gin"
 )
 

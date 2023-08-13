@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands"
-	modelrequest "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/response"
+	modelrequest "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

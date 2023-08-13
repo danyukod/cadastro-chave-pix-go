@@ -3,9 +3,9 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
-	handler2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
-	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/response"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
+	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/response"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -20,7 +20,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCase{}
 		mockFindUseCase := &MockFindPixKeyUseCase{}
-		pixKeyHandler := handler2.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
+		pixKeyHandler := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", pixKeyHandler.RegisterPixKey)
@@ -60,7 +60,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCaseError{}
 		mockFindUseCase := &MockFindPixKeyUseCaseError{}
-		controller := handler2.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
+		controller := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)
@@ -82,7 +82,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response []handler2.ErrorResponse
+		var response []handler.ErrorResponse
 
 		err := json.Unmarshal(w.Body.Bytes(), &response)
 
@@ -95,7 +95,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCaseError{}
 		mockFindUseCase := &MockFindPixKeyUseCaseError{}
-		controller := handler2.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
+		controller := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)
@@ -118,7 +118,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
-		var response map[string][]handler2.ErrorResponse
+		var response map[string][]handler.ErrorResponse
 
 		err := json.Unmarshal(w.Body.Bytes(), &response)
 		if err != nil {

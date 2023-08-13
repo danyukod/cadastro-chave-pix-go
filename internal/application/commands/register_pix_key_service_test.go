@@ -7,7 +7,7 @@ import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

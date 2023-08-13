@@ -1,9 +1,9 @@
-package tests
+package test
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
 )
 
 func PixKeyMockFactory() (model.PixKeyDomainInterface, error) {

@@ -3,7 +3,7 @@ package persistence_test
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence/entity"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/shared/tests"
+	"github.com/danyukod/cadastro-chave-pix-go/test"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ func TestPixKeyPersistence_CreatePixKey(t *testing.T) {
 
 	repo := persistence.NewPixKeyPersistence(db)
 
-	pixKeyDomain, err := tests.PixKeyMockFactory()
+	pixKeyDomain, err := test.PixKeyMockFactory()
 	if err != nil {
 		t.Fatalf("Failed to create pixKeyDomain: %v", err)
 	}
@@ -40,7 +40,7 @@ func TestPixKeyPersistence_FindPixKeyByType(t *testing.T) {
 
 	repo := persistence.NewPixKeyPersistence(db)
 
-	pixKeyDomain, err := tests.PixKeyMockFactory()
+	pixKeyDomain, err := test.PixKeyMockFactory()
 	if err != nil {
 		t.Fatalf("Failed to create pixKeyDomain: %v", err)
 	}

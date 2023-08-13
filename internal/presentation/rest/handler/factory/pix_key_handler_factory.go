@@ -3,7 +3,7 @@ package factory
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/infrastructure/persistence"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler"
 	"gorm.io/gorm"
 )
 

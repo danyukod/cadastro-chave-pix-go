@@ -1,8 +1,8 @@
 package factories
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/handler/factory"
-	routes2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/routes"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/factory"
+	routes2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/routes"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
