@@ -2,7 +2,7 @@ package factories
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/configs"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/shared/logger"
+	"github.com/danyukod/cadastro-chave-pix-go/configs/logger"
 	"gorm.io/gorm"
 )
 

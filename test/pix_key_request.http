@@ -2,7 +2,7 @@
 #--header 'Content-Type: application/json'
 #--data '{
 #    "pixKeyType":"cpf",
-#    "pixKey":"39357160876",
+#    "response":"39357160876",
 #    "accountType":"CORRENTE",
 #    "agencyNumber": 1,
 #    "accountNumber": 99999999,

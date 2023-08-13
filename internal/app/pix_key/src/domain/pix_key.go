@@ -3,20 +3,20 @@ package domain
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/value_object"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler/model/request"
 )
 
 type PixKeyDomainInterface interface {
 	GetID() string
 	SetID(string)
-	GetPixKeyType() object_value.PixKeyType
+	GetPixKeyType() value_object.PixKeyType
 	GetPixKey() string
 	GetAccount() aggregate.AccountDomainInterface
 	Validate() error
 }
 
-func NewPixKeyDomain(pixKeyType object_value.PixKeyType, pixKey string, account aggregate.AccountDomainInterface) (PixKeyDomainInterface, error) {
+func NewPixKeyDomain(pixKeyType value_object.PixKeyType, pixKey string, account aggregate.AccountDomainInterface) (PixKeyDomainInterface, error) {
 	pixKeyDomain := pixKeyDomain{
 		pixKeyType: pixKeyType,
 		pixKey:     pixKey,
@@ -41,7 +41,7 @@ func PixKeyDomainFromRequest(request request.RegisterPixKeyRequest) (PixKeyDomai
 	}
 
 	pixKeyDomain := pixKeyDomain{
-		pixKeyType: object_value.PixKeyTypeFromText(request.PixKeyType),
+		pixKeyType: value_object.PixKeyTypeFromText(request.PixKeyType),
 		pixKey:     request.PixKey,
 		account:    accoutDomain,
 	}
@@ -53,7 +53,7 @@ func PixKeyDomainFromRequest(request request.RegisterPixKeyRequest) (PixKeyDomai
 
 type pixKeyDomain struct {
 	id         string
-	pixKeyType object_value.PixKeyType
+	pixKeyType value_object.PixKeyType
 	pixKey     string
 	account    aggregate.AccountDomainInterface
 }
@@ -80,7 +80,7 @@ func (p *pixKeyDomain) SetID(id string) {
 	p.id = id
 }
 
-func (p *pixKeyDomain) GetPixKeyType() object_value.PixKeyType {
+func (p *pixKeyDomain) GetPixKeyType() value_object.PixKeyType {
 	return p.pixKeyType
 }
 

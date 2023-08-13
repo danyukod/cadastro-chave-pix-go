@@ -1,4 +1,4 @@
-package object_value
+package value_object
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/validation"

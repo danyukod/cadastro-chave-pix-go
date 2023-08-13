@@ -47,11 +47,11 @@ func TestPixKeyPersistence_FindPixKeyByType(t *testing.T) {
 
 	pixKey, err := repo.CreatePixKey(pixKeyDomain)
 	if err != nil {
-		t.Fatalf("Failed to retrieve pixKey: %v", err)
+		t.Fatalf("Failed to retrieve response: %v", err)
 	}
 
 	if pixKey.GetPixKey() != pixKeyDomain.GetPixKey() {
-		t.Errorf("Expected pixKey to be %s, got %s", pixKeyDomain.GetPixKey(), pixKey.GetPixKey())
+		t.Errorf("Expected response to be %s, got %s", pixKeyDomain.GetPixKey(), pixKey.GetPixKey())
 	}
 
 	pixKeyByType, err := repo.FindPixKeyByKeyAndType(pixKeyDomain.GetPixKeyType().String(), pixKey.GetPixKey())

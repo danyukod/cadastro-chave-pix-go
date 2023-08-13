@@ -6,9 +6,9 @@ import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/services/ports/commands"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/value_object"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/infrastructure/adapter/orm"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler/model/request"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -29,7 +29,7 @@ func (m mockPixKeyPersistence) FindPixKeyByKeyAndType(_ string, _ string) (domai
 func (m mockPixKeyPersistence) FindById(id string) (domain.PixKeyDomainInterface, error) {
 	holder, _ := aggregate.NewHolderDomain("John", "Doe")
 	account, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holder)
-	return domain.NewPixKeyDomain(object_value.CPF, "39357160876", account)
+	return domain.NewPixKeyDomain(value_object.CPF, "39357160876", account)
 }
 
 type mockPixKeyPersistenceWithError struct {
@@ -38,18 +38,18 @@ type mockPixKeyPersistenceWithError struct {
 
 func (m mockPixKeyPersistenceWithError) CreatePixKey(pixKeyDomain domain.PixKeyDomainInterface) (domain.PixKeyDomainInterface, error) {
 	var businessErrors businesserrors.BusinessErrors
-	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "pixKey"))
+	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "response"))
 }
 
 func (m mockPixKeyPersistenceWithError) FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (domain.PixKeyDomainInterface, error) {
 	var businessErrors businesserrors.BusinessErrors
-	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "pixKey"))
+	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "response"))
 
 }
 
 func (m mockPixKeyPersistenceWithError) FindById(id string) (domain.PixKeyDomainInterface, error) {
 	var businessErrors businesserrors.BusinessErrors
-	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "pixKey"))
+	return nil, businesserrors.AddError(businessErrors, *businesserrors.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "response"))
 
 }
 func TestRegisterPixKeyService_Execute(t *testing.T) {
@@ -68,7 +68,7 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	holder, _ := aggregate.NewHolderDomain("John", "Doe")
 	account, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holder)
 
-	pixKeyDomainResponse, _ := domain.NewPixKeyDomain(object_value.CPF, "39357160876", account)
+	pixKeyDomainResponse, _ := domain.NewPixKeyDomain(value_object.CPF, "39357160876", account)
 
 	// Test successful execution
 	pixKeyDomain, err := service.Execute(pixKeyRequest)

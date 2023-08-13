@@ -3,10 +3,9 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller"
-	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/pixKey"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler/model/request"
+	response2 "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler/model/response"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -21,10 +20,10 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCase{}
 		mockFindUseCase := &MockFindPixKeyUseCase{}
-		ctrl := controller.NewPixKeyControllerInterface(mockRegisterUseCase, mockFindUseCase)
+		pixKeyHandler := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
-		router.POST("/pix-key", ctrl.RegisterPixKey)
+		router.POST("/pix-key", pixKeyHandler.RegisterPixKey)
 
 		requestBody, _ := json.Marshal(requestpackage.RegisterPixKeyRequest{
 			PixKeyType:            "CPF",
@@ -61,7 +60,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCaseError{}
 		mockFindUseCase := &MockFindPixKeyUseCaseError{}
-		controller := controller.NewPixKeyControllerInterface(mockRegisterUseCase, mockFindUseCase)
+		controller := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)
@@ -96,7 +95,7 @@ func TestPixKeyController_RegisterPixKey(t *testing.T) {
 
 		mockRegisterUseCase := &MockRegisterPixKeyUseCaseError{}
 		mockFindUseCase := &MockFindPixKeyUseCaseError{}
-		controller := controller.NewPixKeyControllerInterface(mockRegisterUseCase, mockFindUseCase)
+		controller := handler.NewPixKeyHandlerInterface(mockRegisterUseCase, mockFindUseCase)
 
 		router := gin.Default()
 		router.POST("/pix-key", controller.RegisterPixKey)

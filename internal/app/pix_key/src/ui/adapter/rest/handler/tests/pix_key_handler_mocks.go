@@ -4,8 +4,8 @@ import (
 	businesserrors "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/application/errors"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
-	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/controller/model/request"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/value_object"
+	requestpackage "github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/ui/adapter/rest/handler/model/request"
 )
 
 type MockRegisterPixKeyUseCase struct{}
@@ -19,13 +19,13 @@ type MockFindPixKeyUseCaseError struct{}
 func (m *MockRegisterPixKeyUseCase) Execute(_ requestpackage.RegisterPixKeyRequest) (domain.PixKeyDomainInterface, error) {
 	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
 	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holderDomain)
-	return domain.NewPixKeyDomain(object_value.CPF, "39357160876", accountDomain)
+	return domain.NewPixKeyDomain(value_object.CPF, "39357160876", accountDomain)
 }
 
 func (m *MockFindPixKeyUseCase) Execute(_ requestpackage.FindPixKeyRequest) (domain.PixKeyDomainInterface, error) {
 	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
 	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE, holderDomain)
-	return domain.NewPixKeyDomain(object_value.CPF, "39357160876", accountDomain)
+	return domain.NewPixKeyDomain(value_object.CPF, "39357160876", accountDomain)
 }
 
 func (m *MockRegisterPixKeyUseCaseError) Execute(_ requestpackage.RegisterPixKeyRequest) (domain.PixKeyDomainInterface, error) {

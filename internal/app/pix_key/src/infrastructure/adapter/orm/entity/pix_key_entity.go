@@ -3,7 +3,7 @@ package entity
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/aggregate"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/object_value"
+	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain/value_object"
 	"github.com/google/uuid"
 	"time"
 )
@@ -57,7 +57,7 @@ func PixKeyDomainFromEntity(entity PixKeyEntity) (domain.PixKeyDomainInterface, 
 		return nil, err
 	}
 
-	pixKeyDomain, err := domain.NewPixKeyDomain(object_value.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, accountDomain)
+	pixKeyDomain, err := domain.NewPixKeyDomain(value_object.PixKeyTypeFromText(entity.PixKeyType), entity.PixKey, accountDomain)
 	if err != nil {
 		return nil, err
 	}

@@ -2,7 +2,7 @@ package request
 
 type RegisterPixKeyRequest struct {
 	PixKeyType            string `json:"pixKeyType" binding:"required"`
-	PixKey                string `json:"pixKey" binding:"required"`
+	PixKey                string `json:"response" binding:"required"`
 	AccountType           string `json:"accountType" binding:"required"`
 	AccountNumber         int    `json:"accountNumber" binding:"required"`
 	AgencyNumber          int    `json:"agencyNumber" binding:"required"`
@@ -12,5 +12,5 @@ type RegisterPixKeyRequest struct {
 
 type FindPixKeyRequest struct {
 	PixKeyType string `uri:"pixKeyType" binding:"required"`
-	PixKey     string `uri:"pixKey" binding:"required"`
+	PixKey     string `uri:"response" binding:"required"`
 }

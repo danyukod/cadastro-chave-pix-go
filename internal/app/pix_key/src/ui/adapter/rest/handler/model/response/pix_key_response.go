@@ -1,4 +1,4 @@
-package pixKey
+package response
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/app/pix_key/src/domain"
@@ -7,7 +7,7 @@ import (
 type FindPixKeyResponse struct {
 	Id                    string `json:"id"`
 	PixKeyType            string `json:"pixKeyType"`
-	PixKey                string `json:"pixKey"`
+	PixKey                string `json:"response"`
 	AccountType           string `json:"accountType"`
 	AccountNumber         int    `json:"accountNumber"`
 	AgencyNumber          int    `json:"agencyNumber"`
@@ -31,7 +31,7 @@ func PixKeyDomainToFindWebResponse(domain domain.PixKeyDomainInterface) *FindPix
 type RegisterPixKeyResponse struct {
 	Id                    string `json:"id"`
 	PixKeyType            string `json:"pixKeyType"`
-	PixKey                string `json:"pixKey"`
+	PixKey                string `json:"response"`
 	AccountType           string `json:"accountType"`
 	AccountNumber         int    `json:"accountNumber"`
 	AgencyNumber          int    `json:"agencyNumber"`
