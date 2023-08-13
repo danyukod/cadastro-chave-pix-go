@@ -11,5 +11,5 @@ type RegisterPixKeyDTO struct {
 }
 
 type FindPixKeyDTO struct {
-	Key string `uri:"key" binding:"required"`
+	Key string
 }
