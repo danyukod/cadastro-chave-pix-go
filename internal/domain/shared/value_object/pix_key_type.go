@@ -49,7 +49,7 @@ func PixKeyTypeFromText(text string) PixKeyType {
 		}
 	default:
 		return UndefinedType{
-			pixKeyType: Undefined,
+			pixKeyType: text,
 		}
 	}
 }

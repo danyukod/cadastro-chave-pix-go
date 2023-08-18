@@ -35,7 +35,7 @@ type pixKeyDomain struct {
 
 func (p *pixKeyDomain) Validate() error {
 	var businessErrors value_object.BusinessErrors
-	if p.pixKeyType.GetType() == value_object.Undefined {
+	if _, ok := p.pixKeyType.(value_object.UndefinedType); ok {
 		businessErrors = value_object.AddError(businessErrors, *value_object.NewBusinessError("Pix Key Type", "O tipo da chave esta invalido.", p.pixKeyType.GetType()))
 	}
 	if p.pixKeyType == nil || !p.pixKeyType.Validate(p.pixKey) {
