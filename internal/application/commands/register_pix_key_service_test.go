@@ -119,7 +119,7 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, pixKeyDomain)
 	assert.True(t, errors.As(err, &businessErrors))
-	assert.Equal(t, "O tipo de chave esta invalido.", businessErrors[0].Error())
+	assert.Equal(t, "O tipo da chave esta invalido.", businessErrors[0].Error())
 	assert.Equal(t, "Pix Key Type", businessErrors[0].Field())
 	//Invalid Pix Key
 	pixKeyRequest.PixKeyType = "cpf"

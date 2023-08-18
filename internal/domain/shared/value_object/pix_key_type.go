@@ -7,14 +7,17 @@ import (
 )
 
 const (
-	CPF            = "CPF"
-	CNPJ           = "CNPJ"
-	Phone          = "PHONE"
-	Email          = "EMAIL"
-	Random         = "RANDOM"
-	Undefined      = "UNDEFINED"
-	MaxEmailLength = 77
-	MinEmailLength = 3
+	CPF                   = "CPF"
+	CNPJ                  = "CNPJ"
+	Phone                 = "PHONE"
+	Email                 = "EMAIL"
+	Random                = "RANDOM"
+	Undefined             = "UNDEFINED"
+	MaxEmailLength        = 77
+	MinEmailLength        = 3
+	RandomRegexValidation = "^[a-zA-Z0-9]{36}$"
+	PhoneRegexValidation  = "\\+((\\d{11,14}))"
+	EmailRegexValidation  = "^[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,4}$"
 )
 
 type PixKeyType interface {
@@ -80,7 +83,7 @@ type PhoneType struct {
 }
 
 func (c PhoneType) Validate(pixKey string) bool {
-	pattern := regexp.MustCompile("\\+((\\d{11,14}))")
+	pattern := regexp.MustCompile(PhoneRegexValidation)
 
 	return pattern.MatchString(pixKey)
 }
@@ -94,7 +97,7 @@ type EmailType struct {
 }
 
 func (c EmailType) Validate(pixKey string) bool {
-	pattern := regexp.MustCompile("^[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,4}$")
+	pattern := regexp.MustCompile(EmailRegexValidation)
 
 	return pattern.MatchString(pixKey) && len(pixKey) <= MaxEmailLength && len(pixKey) >= MinEmailLength
 }
@@ -108,7 +111,7 @@ type RandomType struct {
 }
 
 func (c RandomType) Validate(pixKey string) bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9]{36}$")
+	pattern := regexp.MustCompile(RandomRegexValidation)
 
 	return pattern.MatchString(pixKey)
 }
