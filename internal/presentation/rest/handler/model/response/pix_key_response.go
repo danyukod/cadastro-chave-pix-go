@@ -18,7 +18,7 @@ type FindPixKeyResponse struct {
 func PixKeyDomainToFindWebResponse(domain model.PixKeyDomainInterface) *FindPixKeyResponse {
 	return &FindPixKeyResponse{
 		Id:                    domain.GetID(),
-		PixKeyType:            domain.GetPixKeyType().String(),
+		PixKeyType:            domain.GetPixKeyType().GetType(),
 		PixKey:                domain.GetPixKey(),
 		AccountType:           domain.GetAccount().GetAccountType().String(),
 		AccountNumber:         domain.GetAccount().GetNumber(),
@@ -42,7 +42,7 @@ type RegisterPixKeyResponse struct {
 func PixKeyDomainToRegisterWebResponse(domain model.PixKeyDomainInterface) *RegisterPixKeyResponse {
 	return &RegisterPixKeyResponse{
 		Id:                    domain.GetID(),
-		PixKeyType:            domain.GetPixKeyType().String(),
+		PixKeyType:            domain.GetPixKeyType().GetType(),
 		PixKey:                domain.GetPixKey(),
 		AccountType:           domain.GetAccount().GetAccountType().String(),
 		AccountNumber:         domain.GetAccount().GetNumber(),

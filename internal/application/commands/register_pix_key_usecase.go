@@ -46,7 +46,7 @@ func (r *RegisterPixKeyService) Execute(dto dto.RegisterPixKeyDTO) (model.PixKey
 		return nil, businessErrors
 	}
 
-	err = r.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().String(), pixKeyDomain.GetPixKey())
+	err = r.VerifyIfPixKeyAlreadyExists(pixKeyDomain.GetPixKeyType().GetType(), pixKeyDomain.GetPixKey())
 	if checkErrors(err, be) {
 		return nil, err
 	}

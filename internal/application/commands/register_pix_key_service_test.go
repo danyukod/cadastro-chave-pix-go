@@ -28,7 +28,7 @@ func (m mockPixKeyPersistence) FindPixKeyByKeyAndType(_ string, _ string) (model
 func (m mockPixKeyPersistence) FindById(id string) (model.PixKeyDomainInterface, error) {
 	holder, _ := aggregate.NewHolderDomain("John", "Doe")
 	account, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holder)
-	return model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", account)
+	return model.NewPixKeyDomain(value_object.CPF, "39357160876", account)
 }
 
 type mockPixKeyPersistenceWithError struct {
@@ -67,7 +67,7 @@ func TestRegisterPixKeyService_Execute(t *testing.T) {
 	holder, _ := aggregate.NewHolderDomain("John", "Doe")
 	account, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holder)
 
-	pixKeyDomainResponse, _ := model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", account)
+	pixKeyDomainResponse, _ := model.NewPixKeyDomain(value_object.CPF, "39357160876", account)
 
 	// Test successful execution
 	pixKeyDomain, err := service.Execute(pixKeyRequest.ToDTO())

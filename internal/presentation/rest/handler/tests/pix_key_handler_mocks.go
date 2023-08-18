@@ -18,13 +18,13 @@ type MockFindPixKeyUseCaseError struct{}
 func (m *MockRegisterPixKeyUseCase) Execute(_ dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error) {
 	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
 	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holderDomain)
-	return model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", accountDomain)
+	return model.NewPixKeyDomain(value_object.CPF, "39357160876", accountDomain)
 }
 
 func (m *MockFindPixKeyUseCase) Execute(_ dto.FindPixKeyDTO) (model.PixKeyDomainInterface, error) {
 	holderDomain, _ := aggregate.NewHolderDomain("Danilo", "Kodavara")
 	accountDomain, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holderDomain)
-	return model.NewPixKeyDomain(value_object.CPF.String(), "39357160876", accountDomain)
+	return model.NewPixKeyDomain(value_object.CPF, "39357160876", accountDomain)
 }
 
 func (m *MockRegisterPixKeyUseCaseError) Execute(_ dto.RegisterPixKeyDTO) (model.PixKeyDomainInterface, error) {

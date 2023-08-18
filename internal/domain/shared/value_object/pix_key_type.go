@@ -6,88 +6,125 @@ import (
 	"strings"
 )
 
-type PixKeyType int
-
 const (
-	UNDEFINED_PIX_KEY PixKeyType = iota
-	CPF
-	CNPJ
-	PHONE
-	EMAIL
-	RANDOM
-	MAX_EMAIL_LENGTH = 77
-	MIN_EMAIL_LENGTH = 3
+	CPF            = "CPF"
+	CNPJ           = "CNPJ"
+	Phone          = "PHONE"
+	Email          = "EMAIL"
+	Random         = "RANDOM"
+	Undefined      = "UNDEFINED"
+	MaxEmailLength = 77
+	MinEmailLength = 3
 )
 
-func (t PixKeyType) String() string {
-	return [...]string{"Undefined", "CPF", "CNPJ", "Phone", "Email", "Random"}[t]
-}
-
-func (t PixKeyType) EnumIndex() int {
-	return int(t)
-}
-
-func (t *PixKeyType) UnmarshalText(text []byte) error {
-	*t = PixKeyTypeFromText(string(text))
-	return nil
+type PixKeyType interface {
+	Validate(pixKey string) bool
+	GetType() string
 }
 
 func PixKeyTypeFromText(text string) PixKeyType {
-	switch strings.ToLower(text) {
-	case "cpf":
-		return CPF
-	case "cnpj":
-		return CNPJ
-	case "phone":
-		return PHONE
-	case "email":
-		return EMAIL
-	case "random":
-		return RANDOM
-	default:
-		return UNDEFINED_PIX_KEY
-	}
-}
-
-func (t PixKeyType) PixKeyValidate(pixKey string) bool {
-	switch t {
+	switch strings.ToUpper(text) {
 	case CPF:
-		return ValidateCPF(pixKey)
+		return CPFType{
+			pixKeyType: CPF,
+		}
 	case CNPJ:
-		return ValidateCNPJ(pixKey)
-	case PHONE:
-		return ValidatePhone(pixKey)
-	case EMAIL:
-		return ValidateEmail(pixKey)
-	case RANDOM:
-		return ValidateRandom(pixKey)
+		return CNPJType{
+			pixKeyType: CNPJ,
+		}
+	case Phone:
+		return PhoneType{
+			pixKeyType: Phone,
+		}
+	case Email:
+		return EmailType{
+			pixKeyType: Email,
+		}
+	case Random:
+		return RandomType{
+			pixKeyType: Random,
+		}
 	default:
-		return false
+		return UndefinedType{
+			pixKeyType: Undefined,
+		}
 	}
 }
 
-func ValidateCPF(cpf string) bool {
-	return cpfcnpj.ValidateCPF(cpf)
+type CPFType struct {
+	pixKeyType string
 }
 
-func ValidateCNPJ(cnpj string) bool {
-	return cpfcnpj.ValidateCNPJ(cnpj)
+func (c CPFType) Validate(pixKey string) bool {
+	return cpfcnpj.ValidateCPF(pixKey)
 }
 
-func ValidatePhone(phone string) bool {
+func (c CPFType) GetType() string {
+	return c.pixKeyType
+}
+
+type CNPJType struct {
+	pixKeyType string
+}
+
+func (c CNPJType) Validate(pixKey string) bool {
+	return cpfcnpj.ValidateCNPJ(pixKey)
+}
+
+func (c CNPJType) GetType() string {
+	return c.pixKeyType
+}
+
+type PhoneType struct {
+	pixKeyType string
+}
+
+func (c PhoneType) Validate(pixKey string) bool {
 	pattern := regexp.MustCompile("\\+((\\d{11,14}))")
 
-	return pattern.MatchString(phone)
+	return pattern.MatchString(pixKey)
 }
 
-func ValidateEmail(email string) bool {
+func (c PhoneType) GetType() string {
+	return c.pixKeyType
+}
+
+type EmailType struct {
+	pixKeyType string
+}
+
+func (c EmailType) Validate(pixKey string) bool {
 	pattern := regexp.MustCompile("^[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,4}$")
 
-	return pattern.MatchString(email) && len(email) <= MAX_EMAIL_LENGTH && len(email) >= MIN_EMAIL_LENGTH
+	return pattern.MatchString(pixKey) && len(pixKey) <= MaxEmailLength && len(pixKey) >= MinEmailLength
 }
 
-func ValidateRandom(random string) bool {
+func (c EmailType) GetType() string {
+	return c.pixKeyType
+}
+
+type RandomType struct {
+	pixKeyType string
+}
+
+func (c RandomType) Validate(pixKey string) bool {
 	pattern := regexp.MustCompile("^[a-zA-Z0-9]{36}$")
 
-	return pattern.MatchString(random)
+	return pattern.MatchString(pixKey)
+}
+
+func (c RandomType) GetType() string {
+	return c.pixKeyType
+}
+
+type UndefinedType struct {
+	pixKeyType string
+}
+
+func (d UndefinedType) Validate(_ string) bool {
+	return false
+}
+
+func (d UndefinedType) GetType() string {
+	return d.pixKeyType
 }

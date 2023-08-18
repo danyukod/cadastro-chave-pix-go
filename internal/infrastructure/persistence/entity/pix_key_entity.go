@@ -33,7 +33,7 @@ func ConvertDomainToEntity(domain model.PixKeyDomainInterface) PixKeyEntity {
 	}
 	return PixKeyEntity{
 		ID:                    id,
-		PixKeyType:            domain.GetPixKeyType().String(),
+		PixKeyType:            domain.GetPixKeyType().GetType(),
 		PixKey:                domain.GetPixKey(),
 		AccountType:           domain.GetAccount().GetAccountType().String(),
 		AccountNumber:         domain.GetAccount().GetNumber(),
