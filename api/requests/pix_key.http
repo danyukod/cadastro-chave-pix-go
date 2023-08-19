@@ -1,0 +1,33 @@
+POST {{auth_host}}/users/auth
+Content-Type: application/json
+
+{
+  "email": "dyk@email.com",
+  "password": "d@nil0"
+}
+
+> {%
+    client.global.set("token", response.body.access_token);
+%}
+
+
+###
+
+POST {{host}}/pix/keys
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "pixKeyType":"cpf",
+  "pixKey":"39357160876",
+  "accountType":"CORRENTE",
+  "agencyNumber": 1,
+  "accountNumber": 99999999,
+  "accountHolderName":"Danilo",
+  "accountHolderLastName":"Kodavara"
+}
+
+###
+
+GET {{host}}/pix/keys/{{id}}
+Authorization: {{token}}

@@ -6,7 +6,7 @@ import (
 
 type RegisterPixKeyRequest struct {
 	PixKeyType            string `json:"pixKeyType" binding:"required"`
-	PixKey                string `json:"response" binding:"required"`
+	PixKey                string `json:"pixKey" binding:"required"`
 	AccountType           string `json:"accountType" binding:"required"`
 	AccountNumber         int    `json:"accountNumber" binding:"required"`
 	AgencyNumber          int    `json:"agencyNumber" binding:"required"`
@@ -15,8 +15,7 @@ type RegisterPixKeyRequest struct {
 }
 
 type FindPixKeyRequest struct {
-	PixKeyType string `uri:"pixKeyType" binding:"required"`
-	PixKey     string `uri:"response" binding:"required"`
+	PixKey string `uri:"key" binding:"required"`
 }
 
 func (f *FindPixKeyRequest) ToDTO() dto.FindPixKeyDTO {

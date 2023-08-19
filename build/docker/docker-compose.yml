@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  db-2:
     container_name: mysql_pix_key
     image: mysql:8.0.23
     volumes:
@@ -13,4 +13,4 @@ services:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
     ports:
-      - "3306:3306"
+      - "3307:3306"
