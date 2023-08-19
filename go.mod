@@ -3,7 +3,6 @@ module github.com/danyukod/cadastro-chave-pix-go
 go 1.20
 
 require (
-	github.com/danyukod/cadastro-user-go v0.0.0-20230819001717-ae8c7b1eb248
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/go-playground/validator/v10 v10.14.1
@@ -22,10 +21,12 @@ require (
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+	github.com/danyukod/cadastro-user-go v0.0.0-20230819225427-753bedc5203c // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
+	github.com/gin-contrib/timeout v0.0.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
