@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}/pix/keys
+POST {{host}}/{{base-path}}/pix-keys
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -29,5 +29,5 @@ Content-Type: application/json
 
 ###
 
-GET {{host}}/pix/keys/{{id}}
+GET {{host}}/{{base-path}}/pix-keys/{{id}}
 Authorization: {{token}}

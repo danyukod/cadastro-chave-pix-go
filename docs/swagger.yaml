@@ -1,0 +1,16 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact:
+    email: danilo.kodavara@gmail.com
+    name: Danilo Kodavara
+    url: https://www.linkedin.com/in/danilo-kodavara/
+  description: API para cadastro de chave pix
+  license:
+    name: Danilo  Kodavara License
+    url: https://www.linkedin.com/in/danilo-kodavara/
+  termsOfService: http://swagger.io/terms/
+  title: Cadastro de Chave Pix API
+  version: v1
+paths: {}
+swagger: "2.0"

@@ -10,11 +10,13 @@ func InitPixKeyRoutes(
 	r *gin.RouterGroup,
 	handler handler.PixKeyHandlerInterface,
 ) {
-	apiGroup := r.Group("pix/keys")
 	{
-		apiGroup.Use(middleware.TokenAuthMiddleware())
-		apiGroup.GET("/:key", handler.FindPixKeyByKey)
-		apiGroup.POST("/", handler.RegisterPixKey)
+		group := r.Group("/pix-keys")
+		{
+			group.Use(middleware.TimeoutMiddleware(), middleware.TokenAuthMiddleware())
+			group.GET("/:key", handler.FindPixKeyByKey)
+			group.POST("/", handler.RegisterPixKey)
+		}
 	}
 
 }

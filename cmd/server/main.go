@@ -6,6 +6,24 @@ import (
 	"github.com/danyukod/cadastro-chave-pix-go/configs/logger"
 )
 
+// @title Cadastro de Chave Pix API
+// @version v1
+// @description API para cadastro de chave pix
+// @BasePath /api/v1
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name Danilo Kodavara
+// @contact.url  https://www.linkedin.com/in/danilo-kodavara/
+// @contact.email danilo.kodavara@gmail.com
+
+// @license.name Danilo  Kodavara License
+// @license.url https://www.linkedin.com/in/danilo-kodavara/
+
+// @host localhost:8080
+// @BasePath /api/v1
+// @securityDefinitions ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	err := startPixKeyAPI()
 	if err != nil {
