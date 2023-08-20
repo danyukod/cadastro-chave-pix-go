@@ -1,4 +1,62 @@
 basePath: /api/v1
+definitions:
+  handler.ErrorResponse:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+    type: object
+  request.FindPixKeyRequest:
+    properties:
+      pixKey:
+        type: string
+    required:
+    - pixKey
+    type: object
+  request.RegisterPixKeyRequest:
+    properties:
+      accountHolderLastName:
+        type: string
+      accountHolderName:
+        type: string
+      accountNumber:
+        type: integer
+      accountType:
+        type: string
+      agencyNumber:
+        type: integer
+      pixKey:
+        type: string
+      pixKeyType:
+        type: string
+    required:
+    - accountHolderName
+    - accountNumber
+    - accountType
+    - agencyNumber
+    - pixKey
+    - pixKeyType
+    type: object
+  response.RegisterPixKeyResponse:
+    properties:
+      accountHolderLastName:
+        type: string
+      accountHolderName:
+        type: string
+      accountNumber:
+        type: integer
+      accountType:
+        type: string
+      agencyNumber:
+        type: integer
+      id:
+        type: string
+      pixKeyType:
+        type: string
+      response:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -12,5 +70,73 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Cadastro de Chave Pix API
   version: v1
-paths: {}
+paths:
+  /pix-keys:
+    post:
+      consumes:
+      - application/json
+      description: Register Pix Key
+      parameters:
+      - description: register-pix-keys request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterPixKeyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.RegisterPixKeyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/handler.ErrorResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/handler.ErrorResponse'
+            type: array
+      summary: Register Pix Key
+      tags:
+      - pix-keys
+  /pix-keys/{key}:
+    get:
+      consumes:
+      - application/json
+      description: Find Pix By Key
+      parameters:
+      - description: find-pix-key request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.FindPixKeyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.RegisterPixKeyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/handler.ErrorResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/handler.ErrorResponse'
+            type: array
+      summary: Find Pix By Key
+      tags:
+      - pix-keys/{key}
 swagger: "2.0"

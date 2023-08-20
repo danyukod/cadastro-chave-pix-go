@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands"
-	modelrequest "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
+	request2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -28,8 +28,22 @@ type handler struct {
 	findPixKeyUsecase     commands.FindPixKeyUsecase
 }
 
+// @BasePath /api/v1
+
+// RegisterPixKey godoc
+// @Summary Register Pix Key
+// @Schemes
+// @Description Register Pix Key
+// @Tags pix-keys
+// @Accept json
+// @Produce json
+// @Param request body request.RegisterPixKeyRequest true "register-pix-keys request"
+// @Success 201 {object} response.RegisterPixKeyResponse
+// @Failure 500 {object} ErrorsResponse
+// @Failure 400 {object} ErrorsResponse
+// @Router /pix-keys [post]
 func (p *handler) RegisterPixKey(c *gin.Context) {
-	var request modelrequest.RegisterPixKeyRequest
+	var request request2.RegisterPixKeyRequest
 
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
@@ -46,8 +60,22 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 	c.JSON(http.StatusCreated, response.PixKeyDomainToRegisterWebResponse(pixKeyDomain))
 }
 
+// @BasePath /api/v1
+
+// FindPixKeyByKey godoc
+// @Summary Find Pix By Key
+// @Schemes
+// @Description Find Pix By Key
+// @Tags pix-keys/{key}
+// @Accept json
+// @Produce json
+// @Param request body request.FindPixKeyRequest true "find-pix-key request"
+// @Success 200 {object} response.RegisterPixKeyResponse
+// @Failure 500 {object} ErrorsResponse
+// @Failure 400 {object} ErrorsResponse
+// @Router /pix-keys/{key} [get]
 func (p *handler) FindPixKeyByKey(c *gin.Context) {
-	var request modelrequest.FindPixKeyRequest
+	var request request2.FindPixKeyRequest
 
 	err := c.ShouldBindUri(&request)
 	if err != nil {

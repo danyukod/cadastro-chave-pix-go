@@ -24,7 +24,199 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/pix-keys": {
+            "post": {
+                "description": "Register Pix Key",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pix-keys"
+                ],
+                "summary": "Register Pix Key",
+                "parameters": [
+                    {
+                        "description": "register-pix-keys request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.RegisterPixKeyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.RegisterPixKeyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.ErrorResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.ErrorResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pix-keys/{key}": {
+            "get": {
+                "description": "Find Pix By Key",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pix-keys/{key}"
+                ],
+                "summary": "Find Pix By Key",
+                "parameters": [
+                    {
+                        "description": "find-pix-key request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.FindPixKeyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.RegisterPixKeyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.ErrorResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.ErrorResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.FindPixKeyRequest": {
+            "type": "object",
+            "required": [
+                "pixKey"
+            ],
+            "properties": {
+                "pixKey": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.RegisterPixKeyRequest": {
+            "type": "object",
+            "required": [
+                "accountHolderName",
+                "accountNumber",
+                "accountType",
+                "agencyNumber",
+                "pixKey",
+                "pixKeyType"
+            ],
+            "properties": {
+                "accountHolderLastName": {
+                    "type": "string"
+                },
+                "accountHolderName": {
+                    "type": "string"
+                },
+                "accountNumber": {
+                    "type": "integer"
+                },
+                "accountType": {
+                    "type": "string"
+                },
+                "agencyNumber": {
+                    "type": "integer"
+                },
+                "pixKey": {
+                    "type": "string"
+                },
+                "pixKeyType": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.RegisterPixKeyResponse": {
+            "type": "object",
+            "properties": {
+                "accountHolderLastName": {
+                    "type": "string"
+                },
+                "accountHolderName": {
+                    "type": "string"
+                },
+                "accountNumber": {
+                    "type": "integer"
+                },
+                "accountType": {
+                    "type": "string"
+                },
+                "agencyNumber": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "pixKeyType": {
+                    "type": "string"
+                },
+                "response": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
