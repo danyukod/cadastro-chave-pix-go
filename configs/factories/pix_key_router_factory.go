@@ -1,7 +1,7 @@
 package factories
 
 import (
-	"github.com/danyukod/cadastro-chave-pix-go/docs"
+	"github.com/danyukod/cadastro-chave-pix-go/api/docs"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/factory"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/routes"
 	"github.com/gin-gonic/gin"
