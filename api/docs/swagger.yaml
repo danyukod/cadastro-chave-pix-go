@@ -7,13 +7,6 @@ definitions:
       message:
         type: string
     type: object
-  request.FindPixKeyRequest:
-    properties:
-      pixKey:
-        type: string
-    required:
-    - pixKey
-    type: object
   request.RegisterPixKeyRequest:
     properties:
       accountHolderLastName:
@@ -102,6 +95,8 @@ paths:
             items:
               $ref: '#/definitions/handler.ErrorResponse'
             type: array
+      security:
+      - ApiKeyAuth: []
       summary: Register Pix Key
       tags:
       - pix-keys
@@ -111,12 +106,11 @@ paths:
       - application/json
       description: Find Pix By Key
       parameters:
-      - description: find-pix-key request
-        in: body
-        name: request
+      - description: pix-key parameter
+        in: path
+        name: key
         required: true
-        schema:
-          $ref: '#/definitions/request.FindPixKeyRequest'
+        type: string
       produces:
       - application/json
       responses:
@@ -136,6 +130,8 @@ paths:
             items:
               $ref: '#/definitions/handler.ErrorResponse'
             type: array
+      security:
+      - ApiKeyAuth: []
       summary: Find Pix By Key
       tags:
       - pix-keys/{key}

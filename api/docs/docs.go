@@ -27,6 +27,11 @@ const docTemplate = `{
     "paths": {
         "/pix-keys": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Register Pix Key",
                 "consumes": [
                     "application/json"
@@ -79,6 +84,11 @@ const docTemplate = `{
         },
         "/pix-keys/{key}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Find Pix By Key",
                 "consumes": [
                     "application/json"
@@ -92,13 +102,11 @@ const docTemplate = `{
                 "summary": "Find Pix By Key",
                 "parameters": [
                     {
-                        "description": "find-pix-key request",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.FindPixKeyRequest"
-                        }
+                        "type": "string",
+                        "description": "pix-key parameter",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -138,17 +146,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "request.FindPixKeyRequest": {
-            "type": "object",
-            "required": [
-                "pixKey"
-            ],
-            "properties": {
-                "pixKey": {
                     "type": "string"
                 }
             }

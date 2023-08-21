@@ -42,6 +42,7 @@ type handler struct {
 // @Failure 500 {object} ErrorsResponse
 // @Failure 400 {object} ErrorsResponse
 // @Router /pix-keys [post]
+// @Security ApiKeyAuth
 func (p *handler) RegisterPixKey(c *gin.Context) {
 	var request request2.RegisterPixKeyRequest
 
@@ -69,11 +70,12 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 // @Tags pix-keys/{key}
 // @Accept json
 // @Produce json
-// @Param request body request.FindPixKeyRequest true "find-pix-key request"
+// @Param key path string true "pix-key parameter"
 // @Success 200 {object} response.RegisterPixKeyResponse
 // @Failure 500 {object} ErrorsResponse
 // @Failure 400 {object} ErrorsResponse
 // @Router /pix-keys/{key} [get]
+// @Security ApiKeyAuth
 func (p *handler) FindPixKeyByKey(c *gin.Context) {
 	var request request2.FindPixKeyRequest
 
