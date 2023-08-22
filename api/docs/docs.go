@@ -52,6 +52,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/request.RegisterPixKeyRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -106,6 +113,13 @@ const docTemplate = `{
                         "description": "pix-key parameter",
                         "name": "key",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],

@@ -13,7 +13,7 @@ func InitPixKeyRoutes(
 	{
 		group := r.Group("/pix-keys")
 		{
-			group.Use(middleware.TimeoutMiddleware(), middleware.TokenAuthMiddleware())
+			group.Use(middleware.TokenAuthMiddleware())
 			group.GET("/:key", handler.FindPixKeyByKey)
 			group.POST("/", handler.RegisterPixKey)
 		}

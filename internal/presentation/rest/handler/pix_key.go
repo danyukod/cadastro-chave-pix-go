@@ -38,6 +38,7 @@ type handler struct {
 // @Accept json
 // @Produce json
 // @Param request body request.RegisterPixKeyRequest true "register-pix-keys request"
+// @Param Authorization header string true "Bearer token"
 // @Success 201 {object} response.RegisterPixKeyResponse
 // @Failure 500 {object} ErrorsResponse
 // @Failure 400 {object} ErrorsResponse
@@ -71,6 +72,7 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param key path string true "pix-key parameter"
+// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.RegisterPixKeyResponse
 // @Failure 500 {object} ErrorsResponse
 // @Failure 400 {object} ErrorsResponse

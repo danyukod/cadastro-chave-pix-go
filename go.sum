@@ -58,8 +58,8 @@ github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGX
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/danyukod/cadastro-user-go v0.0.0-20230819225427-753bedc5203c h1:r1XE1f7iOZYV9MVpTMl7EEtPeChMA7h9Cem5jvacRKs=
-github.com/danyukod/cadastro-user-go v0.0.0-20230819225427-753bedc5203c/go.mod h1:J4j/Rqm6jHGpbj+i4qoHnHJE2MENy52bAXpFhp7wr4s=
+github.com/danyukod/cadastro-user-go v0.0.0-20230822000228-59f4c3f2a5b9 h1:OEKYi2nTE2wzId/zBQ2XBhilyy70fTc5CocVYXEoqtA=
+github.com/danyukod/cadastro-user-go v0.0.0-20230822000228-59f4c3f2a5b9/go.mod h1:RR5QlRdCZJOp9Uj54gYM9gwuZX+9v0K506VnqPg9CBk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

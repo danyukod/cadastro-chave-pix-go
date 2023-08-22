@@ -3,7 +3,7 @@ module github.com/danyukod/cadastro-chave-pix-go
 go 1.20
 
 require (
-	github.com/danyukod/cadastro-user-go v0.0.0-20230819225427-753bedc5203c
+	github.com/danyukod/cadastro-user-go v0.0.0-20230822000228-59f4c3f2a5b9
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/go-playground/validator/v10 v10.14.1

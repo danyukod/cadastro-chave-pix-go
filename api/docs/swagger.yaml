@@ -76,6 +76,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/request.RegisterPixKeyRequest'
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -109,6 +114,11 @@ paths:
       - description: pix-key parameter
         in: path
         name: key
+        required: true
+        type: string
+      - description: Bearer token
+        in: header
+        name: Authorization
         required: true
         type: string
       produces:

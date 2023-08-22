@@ -1,4 +1,4 @@
-POST {{auth_host}}/users/auth
+POST {{auth_host}}{{base-path}}/users/auth
 Content-Type: application/json
 
 {
