@@ -45,7 +45,7 @@ const docTemplate = `{
                 "summary": "Register Pix Key",
                 "parameters": [
                     {
-                        "description": "register-pix-keys request",
+                        "description": "Pix Key Request",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -104,13 +104,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pix-keys/{key}"
+                    "pix-keys"
                 ],
                 "summary": "Find Pix By Key",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "pix-key parameter",
+                        "description": "Pix Key",
                         "name": "key",
                         "in": "path",
                         "required": true

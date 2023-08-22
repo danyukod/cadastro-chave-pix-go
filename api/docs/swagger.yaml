@@ -70,7 +70,7 @@ paths:
       - application/json
       description: Register Pix Key
       parameters:
-      - description: register-pix-keys request
+      - description: Pix Key Request
         in: body
         name: request
         required: true
@@ -111,7 +111,7 @@ paths:
       - application/json
       description: Find Pix By Key
       parameters:
-      - description: pix-key parameter
+      - description: Pix Key
         in: path
         name: key
         required: true
@@ -144,5 +144,5 @@ paths:
       - ApiKeyAuth: []
       summary: Find Pix By Key
       tags:
-      - pix-keys/{key}
+      - pix-keys
 swagger: "2.0"
