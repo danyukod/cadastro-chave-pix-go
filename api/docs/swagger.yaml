@@ -109,7 +109,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Find Pix By Key
+      description: Find PixKey By Key
       parameters:
       - description: Pix Key
         in: path
@@ -142,7 +142,7 @@ paths:
             type: array
       security:
       - ApiKeyAuth: []
-      summary: Find Pix By Key
+      summary: Find PixKey By Key
       tags:
       - pix-keys
 swagger: "2.0"

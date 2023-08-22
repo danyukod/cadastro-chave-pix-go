@@ -96,7 +96,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Find Pix By Key",
+                "description": "Find PixKey By Key",
                 "consumes": [
                     "application/json"
                 ],
@@ -106,7 +106,7 @@ const docTemplate = `{
                 "tags": [
                     "pix-keys"
                 ],
-                "summary": "Find Pix By Key",
+                "summary": "Find PixKey By Key",
                 "parameters": [
                     {
                         "type": "string",

@@ -65,9 +65,9 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 // @BasePath /api/v1
 
 // FindPixKeyByKey godoc
-// @Summary Find Pix By Key
+// @Summary Find PixKey By Key
 // @Schemes
-// @Description Find Pix By Key
+// @Description Find PixKey By Key
 // @Tags pix-keys
 // @Accept json
 // @Produce json
