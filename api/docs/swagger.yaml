@@ -76,11 +76,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/request.RegisterPixKeyRequest'
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -116,11 +111,6 @@ paths:
         name: key
         required: true
         type: string
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -145,4 +135,9 @@ paths:
       summary: Find PixKey By Key
       tags:
       - pix-keys
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
