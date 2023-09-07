@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands"
-	request2 "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
+	req "github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/request"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/presentation/rest/handler/model/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -41,7 +41,7 @@ type handler struct {
 // @Router /pix-keys [post]
 // @Security ApiKeyAuth
 func (p *handler) RegisterPixKey(c *gin.Context) {
-	var request request2.RegisterPixKeyRequest
+	var request req.RegisterPixKeyRequest
 
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
@@ -71,7 +71,7 @@ func (p *handler) RegisterPixKey(c *gin.Context) {
 // @Router /pix-keys/{key} [get]
 // @Security ApiKeyAuth
 func (p *handler) FindPixKeyByKey(c *gin.Context) {
-	var request request2.FindPixKeyRequest
+	var request req.FindPixKeyRequest
 
 	err := c.ShouldBindUri(&request)
 	if err != nil {
