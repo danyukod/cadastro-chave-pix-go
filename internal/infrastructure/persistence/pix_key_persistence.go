@@ -12,6 +12,7 @@ type PixKeyPersistenceInterface interface {
 	CreatePixKey(model.PixKeyDomainInterface) (model.PixKeyDomainInterface, error)
 	FindPixKeyByKeyAndType(pixKeyType string, pixKey string) (model.PixKeyDomainInterface, error)
 	FindById(id string) (model.PixKeyDomainInterface, error)
+	FindPixKey() ([]model.PixKeyDomainInterface, error)
 }
 
 func NewPixKeyPersistence(db *gorm.DB) PixKeyPersistenceInterface {
@@ -77,4 +78,25 @@ func (p pixKeyPersistence) FindPixKeyByKeyAndType(pixKeyType string, pixKey stri
 	}
 
 	return pixKeyDomain, nil
+}
+
+func (p pixKeyPersistence) FindPixKey() ([]model.PixKeyDomainInterface, error) {
+	var pixKeyEntity []entity.PixKeyEntity
+
+	err := p.db.Find(&pixKeyEntity).Error
+	if err != nil {
+		return nil, orm_errors.NewPersistenceError("pix_key", err.Error(), "")
+	}
+
+	var pixKeyDomainList []model.PixKeyDomainInterface
+
+	for _, e := range pixKeyEntity {
+		domain, err := entity.PixKeyDomainFromEntity(e)
+		if err != nil {
+			return nil, err
+		}
+		pixKeyDomainList = append(pixKeyDomainList, domain)
+	}
+
+	return pixKeyDomainList, nil
 }

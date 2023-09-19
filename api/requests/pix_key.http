@@ -31,3 +31,8 @@ Content-Type: application/json
 
 GET {{host}}/{{base-path}}/pix-keys/{{id}}
 Authorization: {{token}}
+
+###
+
+GET {{host}}/{{base-path}}/pix-keys
+Authorization: {{token}}

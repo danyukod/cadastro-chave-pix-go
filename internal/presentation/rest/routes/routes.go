@@ -15,6 +15,7 @@ func InitPixKeyRoutes(
 		{
 			group.Use(middleware.TokenAuthMiddleware())
 			group.GET("/:key", handler.FindPixKeyByKey)
+			group.GET("/", handler.FindPixKey)
 			group.POST("/", handler.RegisterPixKey)
 		}
 	}
