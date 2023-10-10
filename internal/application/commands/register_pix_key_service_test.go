@@ -17,6 +17,13 @@ type mockPixKeyPersistence struct {
 	persistence persistence.PixKeyPersistenceInterface
 }
 
+func (m mockPixKeyPersistence) FindPixKey() ([]model.PixKeyDomainInterface, error) {
+	holder, _ := aggregate.NewHolderDomain("John", "Doe")
+	account, _ := aggregate.NewAccountDomain(123, 1, aggregate.CORRENTE.String(), holder)
+	pixKeyDomain, _ := model.NewPixKeyDomain(value_object.CPF, "39357160876", account)
+	return []model.PixKeyDomainInterface{pixKeyDomain}, nil
+}
+
 func (m mockPixKeyPersistence) CreatePixKey(pixKeyDomain model.PixKeyDomainInterface) (model.PixKeyDomainInterface, error) {
 	return pixKeyDomain, nil
 }
@@ -33,6 +40,11 @@ func (m mockPixKeyPersistence) FindById(id string) (model.PixKeyDomainInterface,
 
 type mockPixKeyPersistenceWithError struct {
 	persistence persistence.PixKeyPersistenceInterface
+}
+
+func (m mockPixKeyPersistenceWithError) FindPixKey() ([]model.PixKeyDomainInterface, error) {
+	var businessErrors value_object.BusinessErrors
+	return nil, value_object.AddError(businessErrors, *value_object.NewBusinessError("Pix Key", "Chave pix ja cadastrada.", "response"))
 }
 
 func (m mockPixKeyPersistenceWithError) CreatePixKey(pixKeyDomain model.PixKeyDomainInterface) (model.PixKeyDomainInterface, error) {

@@ -2,7 +2,6 @@ package commands
 
 import (
 	"errors"
-	"github.com/danyukod/cadastro-chave-pix-go/internal/application/commands/dto"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/model"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/aggregate"
 	"github.com/danyukod/cadastro-chave-pix-go/internal/domain/shared/value_object"
@@ -13,6 +12,11 @@ import (
 
 type PixKeyPersistenceInterfaceMock struct {
 	mock.Mock
+}
+
+func (m *PixKeyPersistenceInterfaceMock) FindPixKey() ([]model.PixKeyDomainInterface, error) {
+	args := m.Called()
+	return args.Get(0).([]model.PixKeyDomainInterface), args.Error(1)
 }
 
 func (m *PixKeyPersistenceInterfaceMock) FindById(id string) (model.PixKeyDomainInterface, error) {
@@ -48,21 +52,12 @@ func TestFindPixKeyService_Execute(t *testing.T) {
 
 	service := NewFindPixKeyService(&pm)
 
-	findPixKeyDto := dto.FindPixKeyDTO{
-		Key: cpfId,
-	}
-
-	pixKeyDomain, err = service.Execute(findPixKeyDto)
+	pixKeyDomainList, err := service.Execute()
 
 	assert.Nil(t, err)
-	assert.NotNil(t, pixKeyDomain)
-	assert.Equal(t, cpfId, pixKeyDomain.GetPixKey())
-	assert.Equal(t, value_object.CPF, pixKeyDomain.GetPixKeyType().GetType())
-	assert.Equal(t, pixKeyDomain.GetAccount().GetAccountType().String(), pixKeyDomain.GetAccount().GetAccountType().String())
-	assert.Equal(t, pixKeyDomain.GetAccount().GetNumber(), pixKeyDomain.GetAccount().GetNumber())
-	assert.Equal(t, pixKeyDomain.GetAccount().GetAgency(), pixKeyDomain.GetAccount().GetAgency())
-	assert.Equal(t, pixKeyDomain.GetAccount().GetHolder().GetName(), pixKeyDomain.GetAccount().GetHolder().GetName())
-	assert.Equal(t, pixKeyDomain.GetAccount().GetHolder().GetLastName(), pixKeyDomain.GetAccount().GetHolder().GetLastName())
+	assert.NotNil(t, pixKeyDomainList)
+	assert.Equal(t, 1, len(pixKeyDomainList))
+	assert.Equal(t, cpfId, pixKeyDomainList[0].GetPixKey())
 
 }
 
@@ -74,11 +69,7 @@ func TestFindPixKeyService_Execute_Error(t *testing.T) {
 
 	service := NewFindPixKeyService(&pm)
 
-	findPixKeyDto := dto.FindPixKeyDTO{
-		Key: cpfId,
-	}
-
-	pixKeyDomain, err := service.Execute(findPixKeyDto)
+	pixKeyDomain, err := service.Execute()
 
 	assert.Nil(t, pixKeyDomain)
 	assert.NotNil(t, err)
