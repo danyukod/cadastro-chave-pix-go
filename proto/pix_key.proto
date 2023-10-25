@@ -1,0 +1,33 @@
+syntax = "proto3";
+package pb;
+
+option go_package = "internal/presentation/grpc/pb";
+
+message RegisterPixKey {
+  string id = 1;
+  string pixKeyType = 2;
+  string pixKey = 3;
+  string accountType = 4;
+  int64 accountNumber = 5;
+  int64 agencyNumber = 6;
+  string accountHolderName =7;
+  string accountHolderLastName = 8;
+}
+
+message RegisterPixKeyRequest {
+  string pixKeyType = 1;
+  string pixKey = 2;
+  string accountType = 3;
+  int64 accountNumber = 4;
+  int64 agencyNumber = 5;
+  string accountHolderName = 6;
+  string accountHolderLastName = 7;
+}
+
+message RegisterPixKeyResponse {
+    RegisterPixKey registerPixKey = 1;
+}
+
+service PixKeyManagerService {
+  rpc RegisterPixKey(RegisterPixKeyRequest) returns (RegisterPixKeyResponse) {}
+}
